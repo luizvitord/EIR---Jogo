@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b74d54b91df6594a9d4842a420a3693, type: 3}
+  m_Name: ElfDialog
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  talkScript:
+  - name: Elandrya
+    text: "\u201CVoc\xEA n\xE3o pertence a este mundo\u2026 isso \xE9 evidente.\u201D\r\n"
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Voc\xEA percebeu t\xE3o r\xE1pido assim?\u201D\r\n"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Que lugar \xE9 esse?\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Elandrya
+    text: "\u201CEste vilarejo se chama Valedorn.\u201D\r\n"
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Elandrya
+    text: "\u201CUm dos poucos lugares onde humanos, elfos e an\xF5es ainda coexistem
+      em paz.\u201D\r\n"
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Elandrya
+    text: "\u201CMesmo depois de tudo\u2026 ainda tentamos preservar o que restou.\u201D "
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Kuro
+    text: "\u201CValedorn\u2026\u201D\r\n"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Ent\xE3o isso tudo \xE9 real.\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201CEu realmente fui parar em outro mundo\u2026\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Elandrya
+    text: "\u201CEste lugar \xE9 sustentado por uma for\xE7a antiga\u2026 a Fonte.\u201D "
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Elandrya
+    text: "\u201CEla corre por estas terras desde antes da exist\xEAncia dos reinos.\u201D "
+    portrait: {fileID: -2625695072606700060, guid: 7f0d94d186ce71744ada88822b6f786b, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Fonte?\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201CFoi ela que me trouxe pra c\xE1?\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Elandrya
+    text: "\u201CN\xE3o sabemos ao certo o que a Fonte \xE9.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201CMas sabemos o que ela causa.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201CEla d\xE1 vida\u2026\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201C\u2026e tamb\xE9m corrompe.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Corrompe?\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Elandrya
+    text: "\u201CTalvez.\u201D\r\n"
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201COu talvez esteja apenas se transformando em algo pior.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201CSe procura respostas\u2026 procure o ferreiro.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201CDurgan Ironvein.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Elandrya
+    text: "\u201CEle conhece estas terras melhor do que qualquer um.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Eu nem sei por onde come\xE7ar.\u201D "
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Elandrya
+    text: "\u201CEnt\xE3o comece sobrevivendo.\u201D "
+    portrait: {fileID: 4712645955169456435, guid: ca40c64160fa6484a935cf577861ae70, type: 3}

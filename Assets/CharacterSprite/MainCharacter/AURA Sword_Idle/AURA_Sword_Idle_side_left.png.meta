@@ -1,0 +1,513 @@
+fileFormatVersion: 2
+guid: acac93ba17044184bad0983f882f56bc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8238560660444792323
+    second: AURA_Sword_Idle_side_left_0
+  - first:
+      213: 3212746771493120261
+    second: AURA_Sword_Idle_side_left_1
+  - first:
+      213: -7734162735614029522
+    second: AURA_Sword_Idle_side_left_2
+  - first:
+      213: 6860498709842776956
+    second: AURA_Sword_Idle_side_left_3
+  - first:
+      213: -1891183946979601411
+    second: AURA_Sword_Idle_side_left_4
+  - first:
+      213: 8069884925131446083
+    second: AURA_Sword_Idle_side_left_5
+  - first:
+      213: 4303874802611403082
+    second: AURA_Sword_Idle_side_left_6
+  - first:
+      213: 3219489238946542336
+    second: AURA_Sword_Idle_side_left_7
+  - first:
+      213: -8192572319226099758
+    second: AURA_Sword_Idle_side_left_8
+  - first:
+      213: 5710372535174424430
+    second: AURA_Sword_Idle_side_left_9
+  - first:
+      213: 7925331628703339430
+    second: AURA_Sword_Idle_side_left_10
+  - first:
+      213: 694237758991169459
+    second: AURA_Sword_Idle_side_left_11
+  - first:
+      213: 8221581516459414360
+    second: AURA_Sword_Idle_side_left_12
+  - first:
+      213: 4201230331550339243
+    second: AURA_Sword_Idle_side_left_13
+  - first:
+      213: -7810018407087899285
+    second: AURA_Sword_Idle_side_left_14
+  - first:
+      213: 8132168929999204041
+    second: AURA_Sword_Idle_side_left_15
+  - first:
+      213: -2708414089029441002
+    second: AURA_Sword_Idle_side_left_16
+  - first:
+      213: -2381338983024948880
+    second: AURA_Sword_Idle_side_left_17
+  - first:
+      213: 3077378124432751754
+    second: AURA_Sword_Idle_side_left_18
+  - first:
+      213: 279004757619299471
+    second: AURA_Sword_Idle_side_left_19
+  - first:
+      213: -4810934327884125826
+    second: AURA_Sword_Idle_side_left_20
+  - first:
+      213: -247084045039467844
+    second: AURA_Sword_Idle_side_left_21
+  - first:
+      213: 63653657296552704
+    second: AURA_Sword_Idle_side_left_22
+  - first:
+      213: 7812305353898548339
+    second: AURA_Sword_Idle_side_left_23
+  - first:
+      213: -6970066683848232222
+    second: AURA_Sword_Idle_side_left_24
+  - first:
+      213: 3976335222890297690
+    second: AURA_Sword_Idle_side_left_25
+  - first:
+      213: 6633657576655946789
+    second: AURA_Sword_Idle_side_left_26
+  - first:
+      213: -2572345523722414864
+    second: AURA_Sword_Idle_side_left_27
+  - first:
+      213: 6577229438619460650
+    second: AURA_Sword_Idle_side_left_28
+  - first:
+      213: -2671193239185038222
+    second: AURA_Sword_Idle_side_left_29
+  - first:
+      213: -7517980107012183487
+    second: AURA_Sword_Idle_side_left_30
+  - first:
+      213: -3816948429275239540
+    second: AURA_Sword_Idle_side_left_31
+  - first:
+      213: -3298908055952859584
+    second: AURA_Sword_Idle_side_left_32
+  - first:
+      213: -4820163356813714675
+    second: AURA_Sword_Idle_side_left_33
+  - first:
+      213: -4270447213999225109
+    second: AURA_Sword_Idle_side_left_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df93ea5aab0caad80800000000000000
+      internalID: -8238560660444792323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5096124ba28f59c20800000000000000
+      internalID: 3212746771493120261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2199a428fbbaa490800000000000000
+      internalID: -7734162735614029522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7354366a33653f50800000000000000
+      internalID: 6860498709842776956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df31c5b583a21c5e0800000000000000
+      internalID: -1891183946979601411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3475db4559dfdff60800000000000000
+      internalID: 8069884925131446083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a49386f745f6abb30800000000000000
+      internalID: 4303874802611403082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 003f99db76cedac20800000000000000
+      internalID: 3219489238946542336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d784dbb1e22e4e80800000000000000
+      internalID: -8192572319226099758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e67e73ed0915f3f40800000000000000
+      internalID: 5710372535174424430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a3d708402f6cfd60800000000000000
+      internalID: 7925331628703339430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AURA_Sword_Idle_side_left_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b7f456409d62a900800000000000000
+      internalID: 694237758991169459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 408f281c43bbaad449680a587daafbe1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      AURA_Sword_Idle_side_left_0: -8238560660444792323
+      AURA_Sword_Idle_side_left_1: 3212746771493120261
+      AURA_Sword_Idle_side_left_10: 7925331628703339430
+      AURA_Sword_Idle_side_left_11: 694237758991169459
+      AURA_Sword_Idle_side_left_2: -7734162735614029522
+      AURA_Sword_Idle_side_left_3: 6860498709842776956
+      AURA_Sword_Idle_side_left_4: -1891183946979601411
+      AURA_Sword_Idle_side_left_5: 8069884925131446083
+      AURA_Sword_Idle_side_left_6: 4303874802611403082
+      AURA_Sword_Idle_side_left_7: 3219489238946542336
+      AURA_Sword_Idle_side_left_8: -8192572319226099758
+      AURA_Sword_Idle_side_left_9: 5710372535174424430
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

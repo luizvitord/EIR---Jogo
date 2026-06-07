@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b74d54b91df6594a9d4842a420a3693, type: 3}
+  m_Name: DurganDepois
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  talkScript:
+  - name: Durgan Ironvein
+    text: "\"Uma espada n\xE3o serve de nada parada na bainha.\""
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\"Se quer sobreviver neste mundo, v\xE1 para Mourvane.\""
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\"A experi\xEAncia ensina mais do que qualquer conversa.\""
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\"Os slimes de Mourvane s\xE3o fracos.\""
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: '"Mas a floresta guarda algo muito pior."'
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\"Se pretende continuar vivo, aprenda a usar essa espada antes de encontr\xE1-lo.\""
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}

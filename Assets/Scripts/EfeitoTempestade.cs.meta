@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 56a2ec33460a1d540b42d64752772351
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - luzDoRaio: {fileID: 7868202091906446926, guid: 30c9b3891814e9a4fbd34914a83ab4d5, type: 3}
+  - somTrovao: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

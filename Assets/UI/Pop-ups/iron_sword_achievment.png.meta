@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 36cac15996e748e4f9f74a538d02185a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2433377559573364560
+    second: iron_sword_achievment_0
+  - first:
+      213: 8167434301435729655
+    second: iron_sword_achievment_1
+  - first:
+      213: 3614408832995814222
+    second: iron_sword_achievment_2
+  - first:
+      213: -163279874544237377
+    second: iron_sword_achievment_3
+  - first:
+      213: 946762763129004219
+    second: iron_sword_achievment_4
+  - first:
+      213: -1395666119776536345
+    second: iron_sword_achievment_5
+  - first:
+      213: -2274286742406577542
+    second: iron_sword_achievment_6
+  - first:
+      213: -7516154790822882448
+    second: iron_sword_achievment_7
+  - first:
+      213: -6503038665875262405
+    second: iron_sword_achievment_8
+  - first:
+      213: 4854286862902952909
+    second: iron_sword_achievment_9
+  - first:
+      213: -1877804407854730562
+    second: iron_sword_achievment_10
+  - first:
+      213: -2712341755132999584
+    second: iron_sword_achievment_11
+  - first:
+      213: 8648305237596593601
+    second: iron_sword_achievment_12
+  - first:
+      213: -645770679687875316
+    second: iron_sword_achievment_13
+  - first:
+      213: -607522304853291918
+    second: iron_sword_achievment_14
+  - first:
+      213: 8240920183627166282
+    second: iron_sword_achievment_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: iron_sword_achievment_0
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 861
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05ff6c27ff715c120800000000000000
+      internalID: 2433377559573364560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_1
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 825
+        width: 27
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f6da67693e885170800000000000000
+      internalID: 8167434301435729655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_2
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 735
+        width: 35
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4befb30fa5f82230800000000000000
+      internalID: 3614408832995814222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_3
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 830
+        width: 20
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb402d6b1d9ebbdf0800000000000000
+      internalID: -163279874544237377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_4
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 796
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb02fd687b3932d00800000000000000
+      internalID: 946762763129004219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_5
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 779
+        width: 20
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e8fba10f0991ace0800000000000000
+      internalID: -1395666119776536345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_6
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 773
+        width: 36
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a72c979e14c1070e0800000000000000
+      internalID: -2274286742406577542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_7
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 800
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 073d6204a0141b790800000000000000
+      internalID: -7516154790822882448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_8
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 758
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b34ffd7b9c090c5a0800000000000000
+      internalID: -6503038665875262405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_9
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 750
+        width: 45
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc30d25ce24ed5340800000000000000
+      internalID: 4854286862902952909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_10
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 742
+        width: 43
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb2f72017d2b0f5e0800000000000000
+      internalID: -1877804407854730562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_11
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 742
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06886d75b83db5ad0800000000000000
+      internalID: -2712341755132999584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_12
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 736
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cd581cfac3f40870800000000000000
+      internalID: 8648305237596593601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_13
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 735
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0577defcf2c907f0800000000000000
+      internalID: -645770679687875316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 742
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27cc71abea5a197f0800000000000000
+      internalID: -607522304853291918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron_sword_achievment_15
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 234
+        width: 638
+        height: 501
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42b177ae31ad5270800000000000000
+      internalID: 8240920183627166282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      iron_sword_achievment_0: 2433377559573364560
+      iron_sword_achievment_1: 8167434301435729655
+      iron_sword_achievment_10: -1877804407854730562
+      iron_sword_achievment_11: -2712341755132999584
+      iron_sword_achievment_12: 8648305237596593601
+      iron_sword_achievment_13: -645770679687875316
+      iron_sword_achievment_14: -607522304853291918
+      iron_sword_achievment_15: 8240920183627166282
+      iron_sword_achievment_2: 3614408832995814222
+      iron_sword_achievment_3: -163279874544237377
+      iron_sword_achievment_4: 946762763129004219
+      iron_sword_achievment_5: -1395666119776536345
+      iron_sword_achievment_6: -2274286742406577542
+      iron_sword_achievment_7: -7516154790822882448
+      iron_sword_achievment_8: -6503038665875262405
+      iron_sword_achievment_9: 4854286862902952909
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

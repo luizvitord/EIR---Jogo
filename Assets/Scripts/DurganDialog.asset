@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b74d54b91df6594a9d4842a420a3693, type: 3}
+  m_Name: DurganDialog
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  talkScript:
+  - name: Kuro
+    text: "\u201C\u2026Voc\xEA \xE9 Durgan?\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201CA elfa da entrada da vila\u2026 Elandrya. Ela disse que eu deveria
+      falar com voc\xEA.\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CEnt\xE3o voc\xEA \xE9 o forasteiro.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201COlhar perdido\u2026 m\xE3os vazias\u2026 voc\xEA n\xE3o dura l\xE1
+      fora.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Todo mundo continua falando isso.\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Kuro
+    text: "\u201CEsse mundo \xE9 realmente t\xE3o perigoso assim?\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CPerigoso? Voc\xEA nem imagina.\u201D "
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CAo leste de Valedorn existe a Floresta de Mourvane.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CAntes\u2026 era s\xF3 uma floresta comum.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CAgora?\u2026 criaturas nascem da corrup\xE7\xE3o da Fonte.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Ent\xE3o \xE9 pra l\xE1 que eu tenho que ir?\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CSe quer respostas ou sobreviver tempo suficiente pra encontr\xE1-las,
+      sim.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CMas entrar em Mourvane desarmado \xE9 o mesmo que cavar a pr\xF3pria
+      cova.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CN\xE3o \xE9 grande coisa.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CMas vai manter voc\xEA vivo por mais tempo do que suas pr\xF3prias
+      m\xE3os.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
+  - name: Kuro
+    text: "\u201C\u2026Uma espada\u2026 Eu nunca lutei antes.\u201D"
+    portrait: {fileID: 3451869356938701982, guid: 4d95c7377abe48e42a1661a5d062ad81, type: 3}
+  - name: Durgan Ironvein
+    text: "\u201CEnt\xE3o aprenda r\xE1pido.\u201D"
+    portrait: {fileID: 2451050133787887550, guid: 6356fe89a26d3254ea14c5c6e71bd609, type: 3}
