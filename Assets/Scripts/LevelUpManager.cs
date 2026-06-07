@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelUpManager : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class LevelUpManager : MonoBehaviour
     private int ganhoDeVida = 12;
     private float reducaoDeCooldown = 0.05f;
     private int ganhoDeAura = 5;
+    private int niveisPendentes = 0;
+
+    // Criamos uma estrutura para guardar a progressão de cada nível ganho
+    private class Progressao { public int de; public int para; }
+    private Queue<Progressao> filaDeNiveis = new Queue<Progressao>();
 
     void Start()
     {
@@ -47,7 +53,7 @@ public class LevelUpManager : MonoBehaviour
         // Atalho de teste (pode remover depois se quiser)
         if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
         {
-            SimularLevelUp();
+            SimularLevelUp(1, 2);
         }
 
         // ---> NOVO: TRAVA DE SEGURANÇA DO MOUSE/TECLADO <---
@@ -63,14 +69,26 @@ public class LevelUpManager : MonoBehaviour
         }
     }
 
-    public void SimularLevelUp()
+    public void SimularLevelUp(int antigo, int novo)
     {
-        int nivelAntigo = nivelAtualDoJogador;
-        nivelAtualDoJogador++;
+        // Enfileira este nível ganho
+        filaDeNiveis.Enqueue(new Progressao { de = antigo, para = novo });
 
-        textoLevelProgresso.text = "Lvl " + nivelAntigo + "  <color=#FFD700>→</color>  Lvl " + nivelAtualDoJogador;
+        // Se a tela não estiver ativa, inicia o processamento
+        if (!painelLevelUp.activeInHierarchy)
+        {
+            ProcessarProximoNivel();
+        }
+    }
 
-        StartCoroutine(AtrasoParaAbrirTela());
+    private void ProcessarProximoNivel()
+    {
+        if (filaDeNiveis.Count > 0)
+        {
+            Progressao p = filaDeNiveis.Peek(); // Olha o próximo da fila
+            textoLevelProgresso.text = "Lvl " + p.de + "  <color=#FFD700>→</color>  Lvl " + p.para;
+            AtivarTelaLevelUp();
+        }
     }
 
     private IEnumerator AtrasoParaAbrirTela()
@@ -86,15 +104,11 @@ public class LevelUpManager : MonoBehaviour
         painelLevelUp.SetActive(true);
         Time.timeScale = 0f;
 
-        // ---> ÁUDIO: Toca o som de Level Up!
         if (audioSourceUI != null && somLevelUpAparece != null)
-        {
             audioSourceUI.PlayOneShot(somLevelUpAparece);
-        }
 
         if (playerMovement != null) playerMovement.canMove = false;
 
-        EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(primeiroBotaoSelecionado);
 
         podeEscolher = false;
@@ -140,15 +154,23 @@ public class LevelUpManager : MonoBehaviour
 
     private void FinalizarEscolha()
     {
-        // ---> ÁUDIO: Toca o som do Clique!
         if (audioSourceUI != null && somClickBotao != null)
-        {
             audioSourceUI.PlayOneShot(somClickBotao);
-        }
 
-        painelLevelUp.SetActive(false);
-        Time.timeScale = 1f;
-        if (playerMovement != null) playerMovement.canMove = true;
+        filaDeNiveis.Dequeue(); // Remove o nível que já foi escolhido
+
+        if (filaDeNiveis.Count > 0)
+        {
+            // Se ainda tem níveis na fila, processa o próximo
+            ProcessarProximoNivel();
+        }
+        else
+        {
+            // Fila vazia, fecha a tela e volta o tempo
+            painelLevelUp.SetActive(false);
+            Time.timeScale = 1f;
+            if (playerMovement != null) playerMovement.canMove = true;
+        }
     }
 
     // --- APLICAÇÃO DOS STATUS ---

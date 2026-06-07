@@ -215,6 +215,12 @@ public class BossBattleManager : MonoBehaviour
         {
             bossAnim.runtimeAnimatorController = animatorMonstro;
             bossAnim.SetTrigger("Spawn");
+
+            // =========================================================
+            // AQUI ESTÁ A MÁGICA: AVISA A IA QUE AGORA OS SONS SÃO DE MONSTRO!
+            // =========================================================
+            BossHumanAI iaDoBoss = bossObject.GetComponent<BossHumanAI>();
+            if (iaDoBoss != null) iaDoBoss.isMonstro = true;
         }
 
         if (bossHealth != null)

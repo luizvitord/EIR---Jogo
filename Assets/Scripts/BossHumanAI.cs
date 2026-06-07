@@ -10,7 +10,7 @@ public class BossHumanAI : MonoBehaviour
     [Header("Tempos (Cooldowns)")]
     public float tempoEntreAtaques = 1.5f;
     public float tempoPausaInvestida = 1.2f;
-    public float forcaInvestida = 15f; // Agora isso atua como a velocidade MÁXIMA dele correndo!
+    public float forcaInvestida = 15f;
     public float tempoParaCarregarInvestida = 8f;
 
     [Header("Dano")]
@@ -21,14 +21,35 @@ public class BossHumanAI : MonoBehaviour
     public float raioHitbox = 0.4f;
     public LayerMask layerPlayer;
 
+    [Header("Áudio / Efeitos Sonoros")]
+    public AudioSource sfxSource; // Arraste o AudioSource do Boss aqui
+    public bool isMonstro = false; // O Manager vai mudar isso pra true na fase 2!
+
+    [Header("Volumes (Ajuste na Unity)")]
+    [Range(0f, 1f)] public float volumePassoNormal = 0.3f;
+    [Range(0f, 1f)] public float volumePassoDash = 0.15f;
+    [Range(0f, 1f)] public float volumeAtaque = 0.8f;
+    [Range(0f, 1f)] public float volumeGritos = 1.0f;
+
+    [Space(10)]
+    public AudioClip somPassoHumano;
+    public AudioClip somAtaqueHumano;
+    public AudioClip somPreparaDashHumano;
+    public AudioClip somDashHumano;
+
+    [Space(10)]
+    public AudioClip somPassoMonstro;
+    public AudioClip somAtaqueMonstro;
+    public AudioClip somPreparaDashMonstro;
+    public AudioClip somDashMonstro;
+
     private Transform player;
     private Rigidbody2D rb;
     private Animator anim;
     private EnemyHealth healthScript;
     private SpriteRenderer sr;
 
-    // Máquina de Estados Interna
-    private bool estaAtacando = false;
+    public bool estaAtacando = false;
     private bool emCooldown = false;
     private float timerInvestida;
     private bool jaDeuDanoNesseAtaque = false;
@@ -115,6 +136,10 @@ public class BossHumanAI : MonoBehaviour
         AtualizarPosicaoDoAtaque();
 
         yield return new WaitForSeconds(0.2f);
+
+        // TOCA O SOM DO GOLPE
+        TocarSomAtaque();
+
         anim.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f);
         yield return new WaitForSeconds(0.4f);
@@ -124,7 +149,7 @@ public class BossHumanAI : MonoBehaviour
     }
 
     // =========================================================
-    // A NOVA INVESTIDA (O TERROR DO JOGADOR)
+    // A NOVA INVESTIDA (ANIME DASH / FURACÃO DE ESPADAS)
     // =========================================================
     private IEnumerator AtaqueInvestida()
     {
@@ -132,11 +157,23 @@ public class BossHumanAI : MonoBehaviour
         PararMovimento();
         timerInvestida = tempoParaCarregarInvestida;
 
-        // 1. O AVISO (Brilha vermelho encarando o Kuro)
-        sr.color = new Color(1f, 0.4f, 0.4f);
+        // --- NOVO: ZOOM CINEMATOGRÁFICO DE PREPARAÇÃO ---
+        // Dá um zoom sutil (de 5 para 4) durante o tempo de preparação
+        if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
+        {
+            BossBattleManager.Instance.cameraFollow.MudarZoomSmooth(4.0f, tempoPausaInvestida);
+        }
+
         OlharParaOPlayer();
+        TocarSomPreparaDash();
+
         yield return new WaitForSeconds(tempoPausaInvestida);
-        sr.color = Color.white;
+
+        // --- NOVO: VOLTA O ZOOM AO NORMAL RÁPIDO AO DAR O DASH ---
+        if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
+        {
+            BossBattleManager.Instance.cameraFollow.MudarZoomSmooth(5.0f, 0.2f);
+        }
 
         // 2. GRAVA O DESTINO EXATO DE ONDE O JOGADOR ESTAVA
         Vector2 destinoDoDash = player.position;
@@ -145,33 +182,47 @@ public class BossHumanAI : MonoBehaviour
         anim.SetFloat("LastInputX", direcaoDoDash.x);
         anim.SetFloat("LastInputY", direcaoDoDash.y);
 
-        float tempoSeguranca = 2f; // Trava de segurança pra ele não ficar preso numa parede pra sempre
-        float intervaloEntreGolpes = 0.2f; // A cada 0.2s ele dá uma espadada no ar!
+        float tempoSeguranca = 2f;
+        float intervaloEntreGolpes = 0.15f;
         float timerGolpe = 0f;
 
-        // 3. A CORRIDA (Ele não usa mais AddForce, ele corre fisicamente até o ponto!)
+        float intervaloEntrePassosDash = 0.08f;
+        float timerPassoDash = 0f;
+
+        anim.speed = 3f;
+
+        if (isMonstro) TocarSomDash();
+
+        // 3. A CORRIDA INSONE
         while (Vector2.Distance(transform.position, destinoDoDash) > 0.5f && tempoSeguranca > 0)
         {
             tempoSeguranca -= Time.deltaTime;
             timerGolpe -= Time.deltaTime;
+            timerPassoDash -= Time.deltaTime;
 
-            // Move fisicamente na velocidade do Dash
             rb.linearVelocity = direcaoDoDash * forcaInvestida;
-            AtualizarPosicaoDoAtaque(); // A hitbox viaja na frente dele
+            AtualizarPosicaoDoAtaque();
 
-            // 4. MULTI-HIT: Solta a animação e o dano várias vezes no trajeto!
-            if (timerGolpe <= 0f)
+            if (!isMonstro && timerPassoDash <= 0f)
             {
-                anim.SetTrigger("RunAttack"); // Dispara a animação visualmente de novo
-                AplicarDanoMultiploNoDash();  // Checa a colisão e tira vida
-                timerGolpe = intervaloEntreGolpes; // Reseta o timer pro próximo golpe
+                TocarPassoRapidoDash();
+                timerPassoDash = intervaloEntrePassosDash;
             }
 
-            yield return null; // Passa pro próximo milissegundo do jogo
+            if (timerGolpe <= 0f)
+            {
+                anim.SetTrigger("RunAttack");
+                AplicarDanoMultiploNoDash();
+                timerGolpe = intervaloEntreGolpes;
+            }
+
+            yield return null;
         }
 
-        // 5. CHEGOU NO DESTINO (Freia e descansa)
+        // 4. CHEGOU NO DESTINO
         PararMovimento();
+        anim.speed = 1f;
+
         yield return new WaitForSeconds(0.6f);
 
         estaAtacando = false;
@@ -196,13 +247,52 @@ public class BossHumanAI : MonoBehaviour
         pontoDeAtaque.localPosition = direcao * distanciaHitbox;
     }
 
-    // Usado pelo Animation Event do Ataque Normal
+    // =========================================================
+    // GERENCIADOR DE ÁUDIO (Escolhe automaticamente se é humano ou monstro)
+    // =========================================================
+    public void TocarPasso()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = isMonstro ? somPassoMonstro : somPassoHumano;
+        if (clip != null) sfxSource.PlayOneShot(clip, volumePassoNormal);
+    }
+
+    public void TocarPassoRapidoDash()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = isMonstro ? somPassoMonstro : somPassoHumano;
+        if (clip != null) sfxSource.PlayOneShot(clip, volumePassoDash);
+    }
+
+    private void TocarSomAtaque()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = isMonstro ? somAtaqueMonstro : somAtaqueHumano;
+        if (clip != null) sfxSource.PlayOneShot(clip, volumeAtaque);
+    }
+
+    private void TocarSomPreparaDash()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = isMonstro ? somPreparaDashMonstro : somPreparaDashHumano;
+        if (clip != null) sfxSource.PlayOneShot(clip, volumeGritos);
+    }
+
+    private void TocarSomDash()
+    {
+        if (sfxSource == null) return;
+        AudioClip clip = isMonstro ? somDashMonstro : somDashHumano;
+        if (clip != null) sfxSource.PlayOneShot(clip, volumeGritos);
+    }
+
+    // ==========================================
+    // MÉTODOS PARA OS ANIMATION EVENTS
+    // ==========================================
     public void CausarDanoNormal()
     {
         if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(danoAtaqueNormal);
     }
 
-    // Mantido para não quebrar o seu Animation Event (se ainda estiver configurado)
     public void CausarDanoInvestida()
     {
         if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(danoInvestida);
@@ -224,21 +314,16 @@ public class BossHumanAI : MonoBehaviour
         }
     }
 
-    // =========================================================
-    // FUNÇÃO ESPECIAL SEM TRAVA PARA O DASH MULTI-HIT
-    // =========================================================
     private void AplicarDanoMultiploNoDash()
     {
         if (pontoDeAtaque == null) return;
 
-        // Procura você na ponta da espada dele enquanto ele corre
         Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, raioHitbox, layerPlayer);
         if (hit != null)
         {
             PlayerStats playerHealth = hit.GetComponent<PlayerStats>();
             if (playerHealth != null)
             {
-                // Dá o dano direto, ignorando a trava "jaDeuDanoNesseAtaque"
                 playerHealth.TakeDamage(danoInvestida);
             }
         }
