@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     [Header("Sons de Vida")]
     public AudioClip somDano;
     public AudioClip somMorte;
-    public AudioClip musicaVitoriaBoss; // ---> NOVO: Música épica de vitória
+    public AudioClip musicaVitoriaBoss;
     private AudioSource audioSource;
 
     [Header("Efeito de Dano (Flash)")]
@@ -27,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
     private Rigidbody2D rb;
     private SlimeAI aiScript;
     private OrcAI orcAI;
+    private BossHumanAI bossHumanAI; // <--- NOVA REFERÊNCIA PRO AETHERION
 
     void Start()
     {
@@ -37,13 +38,14 @@ public class EnemyHealth : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         aiScript = GetComponent<SlimeAI>();
         orcAI = GetComponent<OrcAI>();
+        bossHumanAI = GetComponent<BossHumanAI>(); // <--- PUXANDO O SCRIPT DELE
 
         audioSource = GetComponent<AudioSource>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            materialOriginal = spriteRenderer.material; // Salva o material padrão
+            materialOriginal = spriteRenderer.material;
         }
     }
 
@@ -60,34 +62,32 @@ public class EnemyHealth : MonoBehaviour
         {
             GameObject popup = Instantiate(damagePopupPrefab, transform.position, Quaternion.identity);
 
-            // 1. Procura o seu script de status onde a Habilidade está guardada
             PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
 
-            // 2. Olha diretamente para a variável que ativa o dobro de dano
             bool hitComAura = false;
             if (playerStats != null && playerStats.isAuraActive)
             {
                 hitComAura = true;
             }
 
-            // 3. O PopUp agora vai tremer e ficar dourado apenas nos 4 segundos que a Aura durar!
             popup.GetComponent<DamagePopup>().Setup(damage, hitComAura);
         }
 
         if (currentHealth > 0)
         {
-            // Verifica se o inimigo é um Orc e se ele está no meio de um ataque (Hyper Armor)
-            bool temHyperArmor = (orcAI != null && orcAI.estaAtacando);
+            // O inimigo tem Hyper Armor se for um Orc atacando OU um Boss atacando!
+            bool temHyperArmor = false;
+            if (orcAI != null && orcAI.estaAtacando) temHyperArmor = true;
+            if (bossHumanAI != null && bossHumanAI.estaAtacando) temHyperArmor = true;
 
             if (!temHyperArmor)
             {
-                // Só toca a animação de dor e trava o inimigo se ele NÃO tiver Hyper Armor
+                // Só toca a animação de dor (Hurt) se ele NÃO estiver atacando
                 if (anim != null) anim.SetTrigger("Hurt");
-                if (orcAI != null) orcAI.SofrerImpacto(0.4f); // Trava o Orc de andar
-                if (aiScript != null) aiScript.ApplyKnockback(attackDirection); // Empurra o Slime
+                if (orcAI != null) orcAI.SofrerImpacto(0.4f);
+                if (aiScript != null) aiScript.ApplyKnockback(attackDirection);
             }
 
-            // O som de dano toca sempre, mesmo com Hyper Armor!
             if (audioSource != null && somDano != null)
             {
                 audioSource.PlayOneShot(somDano, 0.6f);
@@ -104,43 +104,35 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log(gameObject.name + " foi derrotado!");
 
         // --- LÓGICA ESPECÍFICA POR TIPO DE INIMIGO ---
+
+        // 1. SE FOR O ORC
         if (orcAI != null)
         {
             BossHealthBar bossBar = Object.FindFirstObjectByType<BossHealthBar>();
             if (bossBar != null) bossBar.DesativarBossBar();
 
-            // COMPORTAMENTO DO ORC (Vira decoração)
             if (rb != null)
             {
                 rb.linearVelocity = Vector2.zero;
                 rb.bodyType = RigidbodyType2D.Static;
             }
-            if (orcAI != null) orcAI.enabled = false;
+            orcAI.enabled = false;
             if (col != null) col.enabled = false;
 
-            SpriteRenderer spriteOrc = GetComponent<SpriteRenderer>();
-            if (spriteOrc != null)
-            {
-                spriteOrc.sortingOrder = -10; // Fica no fundo
-            }
+            if (spriteRenderer != null) spriteRenderer.sortingOrder = -10;
 
-            // RECOMPENSA (Espada e PopUp)
             PlayerMovement playerMov = FindFirstObjectByType<PlayerMovement>();
             if (playerMov != null) playerMov.EquipIronSword();
 
             PopUpConquista popUp = FindFirstObjectByType<PopUpConquista>();
             if (popUp != null) popUp.MostrarPopUp();
 
-            // ---> A CORREÇÃO DA MÚSICA <---
-
-            // 1. Procura o script do Gatilho e para a música de Boss
             OrcSpawnTrigger gatilhoSpawn = FindFirstObjectByType<OrcSpawnTrigger>();
             if (gatilhoSpawn != null && gatilhoSpawn.audioSourceGeral != null)
             {
-                gatilhoSpawn.audioSourceGeral.Stop(); // Calou a música da batalha!
+                gatilhoSpawn.audioSourceGeral.Stop();
             }
 
-            // 2. Toca a música da vitória no próprio corpo do Orc
             if (audioSource != null && musicaVitoriaBoss != null)
             {
                 audioSource.clip = musicaVitoriaBoss;
@@ -149,11 +141,37 @@ public class EnemyHealth : MonoBehaviour
                 audioSource.Play();
             }
         }
+        // 2. SE FOR O AETHERION
+        else if (bossHumanAI != null)
+        {
+            BossHealthBar bossBar = Object.FindFirstObjectByType<BossHealthBar>();
+            if (bossBar != null) bossBar.DesativarBossBar();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.bodyType = RigidbodyType2D.Static;
+            }
+
+            bossHumanAI.enabled = false;
+            if (col != null) col.enabled = false;
+
+            if (spriteRenderer != null) spriteRenderer.sortingOrder = -10;
+
+            // ========================================================
+            // A CORREÇÃO ESTÁ AQUI: 
+            // Em vez de tocar a música de vitória, ele chama a Cutscene do Monstro!
+            // ========================================================
+            if (BossBattleManager.Instance != null)
+            {
+                BossBattleManager.Instance.IniciarTransicaoMonstro();
+            }
+        }
+        // 3. SE NÃO FOR NENHUM DOS DOIS, É UM SLIME (Ou inimigo comum)
         else
         {
-            // COMPORTAMENTO DO SLIME
             if (aiScript != null) aiScript.enabled = false;
-            Destroy(gameObject, 0.8f);
+            Destroy(gameObject, 0.8f); // Aqui o lixeiro só passa pra pegar os slimes!
         }
 
         // --- LÓGICA COMPARTILHADA (XP, Sons e Animação) ---
@@ -180,13 +198,8 @@ public class EnemyHealth : MonoBehaviour
     {
         if (spriteRenderer != null && materialFlashBranco != null)
         {
-            // Fica totalmente branco
             spriteRenderer.material = materialFlashBranco;
-
-            // Espera uma fração de segundo (o tempo exato de 4 a 5 frames a 60fps)
             yield return new WaitForSeconds(0.08f);
-
-            // Devolve o material com as cores normais do pixel art
             spriteRenderer.material = materialOriginal;
         }
     }

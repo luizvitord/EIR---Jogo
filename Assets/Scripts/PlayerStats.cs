@@ -208,7 +208,10 @@ public class PlayerStats : MonoBehaviour
     public void GainExp(int expAmount)
     {
         currentExp += expAmount;
-        if (currentExp >= expToNextLevel)
+
+        // O 'while' garante que, se a XP acumulada for o suficiente para 
+        // subir 2, 3 ou mais níveis, ele fará isso em sequência!
+        while (currentExp >= expToNextLevel)
         {
             LevelUp();
         }
@@ -216,15 +219,18 @@ public class PlayerStats : MonoBehaviour
 
     private void LevelUp()
     {
+        int nivelAntigo = level; // Salva o nível ANTES do incremento
         level++;
+
         currentExp -= expToNextLevel;
         expToNextLevel += 50;
 
-        Debug.Log("LEVEL UP! Nível atual: " + level);
+        Debug.Log("LEVEL UP! De " + nivelAntigo + " para " + level);
 
         if (levelUpManager != null)
         {
-            levelUpManager.SimularLevelUp();
+            // AQUI ESTÁ O SEGREDO: Passando os dois valores esperados
+            levelUpManager.SimularLevelUp(nivelAntigo, level);
         }
     }
 

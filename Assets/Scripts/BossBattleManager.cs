@@ -23,7 +23,7 @@ public class BossBattleManager : MonoBehaviour
     public BossHealthBar bossHealthBar;
     public GameObject hudPrincipal;
     public DialogueSystem sistemaDialogo;
-    public GameObject painelDialogo; // <--- ADICIONADO DE VOLTA AQUI
+    public GameObject painelDialogo;
 
     [Header("Áudio / Trilhas")]
     public AudioSource bgmSource;
@@ -215,13 +215,34 @@ public class BossBattleManager : MonoBehaviour
         {
             bossAnim.runtimeAnimatorController = animatorMonstro;
             bossAnim.SetTrigger("Spawn");
+
+            // =========================================================
+            // AQUI ESTÁ A MÁGICA: AVISA A IA QUE AGORA OS SONS SÃO DE MONSTRO!
+            // E LIMPA A MEMÓRIA DE ATAQUES PARA DESTRAVAR O CÓDIGO
+            // =========================================================
+            BossHumanAI iaDoBoss = bossObject.GetComponent<BossHumanAI>();
+            if (iaDoBoss != null)
+            {
+                iaDoBoss.isMonstro = true;
+                iaDoBoss.estaAtacando = false; // <--- CORREÇÃO 1
+            }
         }
 
         if (bossHealth != null)
         {
             bossHealth.currentHealth = bossHealth.maxHealth;
+
+            // 1. Religa o colisor
             Collider2D bossCollider = bossObject.GetComponent<Collider2D>();
             if (bossCollider != null) bossCollider.enabled = true;
+
+            // 2. DESCONGELA A FÍSICA (Tira de Static e volta para Dynamic)
+            Rigidbody2D rbBoss = bossObject.GetComponent<Rigidbody2D>();
+            if (rbBoss != null) rbBoss.bodyType = RigidbodyType2D.Dynamic;
+
+            // 3. TRAZ O SPRITE PARA A FRENTE NOVAMENTE (Tira do -10)
+            SpriteRenderer srBoss = bossObject.GetComponent<SpriteRenderer>();
+            if (srBoss != null) srBoss.sortingOrder = 0; // Coloque 0 ou o valor padrão que você usa
         }
 
         yield return new WaitForSeconds(2.5f);
@@ -272,6 +293,12 @@ public class BossBattleManager : MonoBehaviour
         }
 
         if (hudPrincipal != null) hudPrincipal.SetActive(true);
+
+        // =========================================================
+        // CORREÇÃO 2: RELIGA O CÉREBRO DO MONSTRO APÓS A CUTSCENE
+        // =========================================================
+        BossHumanAI bossAI = bossObject.GetComponent<BossHumanAI>();
+        if (bossAI != null) bossAI.enabled = true;
 
         if (bossHealthBar != null && bossHealth != null)
         {
