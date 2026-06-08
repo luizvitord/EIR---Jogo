@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing; // ---> NOVO: Biblioteca correta!
+using UnityEngine.Rendering; // ---> NOVO: Biblioteca da URP!
 
 public class AuraPostProcessing : MonoBehaviour
 {
     [Header("Referências")]
-    [SerializeField] private PostProcessVolume volumeAura; // ---> NOVO: Tipo correto!
+    [SerializeField] private Volume volumeAura; // ---> NOVO: Tipo correto da URP!
     private PlayerStats playerStats;
 
     [Header("Configurações")]
@@ -14,7 +14,8 @@ public class AuraPostProcessing : MonoBehaviour
 
     void Start()
     {
-        if (volumeAura == null) volumeAura = GetComponent<PostProcessVolume>();
+        // Pega o componente Volume novo que você acabou de adicionar
+        if (volumeAura == null) volumeAura = GetComponent<Volume>();
         if (volumeAura != null) volumeAura.weight = 0f;
 
         playerStats = Object.FindFirstObjectByType<PlayerStats>();
@@ -26,7 +27,7 @@ public class AuraPostProcessing : MonoBehaviour
 
         pesoAlvo = playerStats.isAuraActive ? 1f : 0f;
 
-        // Faz a transição do Weight de 0 a 1 suavemente
+        // Faz a transição do Weight de 0 a 1 suavemente (A mágica continua a mesma!)
         volumeAura.weight = Mathf.MoveTowards(volumeAura.weight, pesoAlvo, velocidadeTransicao * Time.unscaledDeltaTime);
     }
 }
