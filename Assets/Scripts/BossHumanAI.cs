@@ -3,31 +3,67 @@ using System.Collections;
 
 public class BossHumanAI : MonoBehaviour
 {
-    [Header("Atributos de Movimento")]
-    public float velocidade = 3.5f;
-    public float distanciaAtaque = 1.5f;
+    // ==========================================
+    // CONFIGURAÇÕES DA FORMA HUMANA
+    // ==========================================
+    [Header("--- FORMA HUMANA ---")]
+    public float velocidadeHumana = 3.0f;
+    public float velocidadeRecuperacaoHumana = 3.0f; // Humano não cansa, então fica igual à normal
+    public float distanciaAtaqueHumana = 1.5f;
+    public float tempoEntreAtaquesHumana = 1.5f;
+    public float tempoPausaInvestidaHumana = 1.2f;
+    public float forcaInvestidaHumana = 12f;
+    public float tempoParaCarregarInvestidaHumana = 8f;
+    public int danoAtaqueHumanoNormal = 3;
+    public int danoInvestidaHumano = 5;
+    public float distanciaHitboxHumana = 1.0f;
+    public float raioHitboxHumana = 0.3f;
 
-    [Header("Tempos (Cooldowns)")]
-    public float tempoEntreAtaques = 1.5f;
-    public float tempoPausaInvestida = 1.2f;
-    public float forcaInvestida = 15f;
-    public float tempoParaCarregarInvestida = 8f;
+    // ==========================================
+    // CONFIGURAÇÕES DA FORMA MONSTRO
+    // ==========================================
+    [Header("--- FORMA MONSTRO ---")]
+    public float velocidadeMonstro = 4.5f;
+    public float velocidadeRecuperacaoMonstro = 1.5f; // Monstro anda devagar para recuperar fôlego
+    public float distanciaAtaqueMonstro = 1.8f;
+    public float tempoEntreAtaquesMonstro = 2.0f;
+    public float tempoPausaInvestidaMonstro = 3.0f;
+    public float forcaInvestidaMonstro = 18f;
+    public float tempoParaCarregarInvestidaMonstro = 6f;
+    public int danoAtaqueMonstroNormal = 6;
+    public int danoInvestidaMonstro = 10;
+    public float distanciaHitboxMonstro = 1.5f;
+    public float raioHitboxMonstro = 0.6f;
 
-    [Header("Dano")]
-    public int danoAtaqueNormal = 3;
-    public int danoInvestida = 5;
+    // ==========================================
+    // PROPRIEDADES DINÂMICAS (O Cérebro)
+    // Elas leem "isMonstro" e entregam o valor certo automaticamente!
+    // ==========================================
+    private float VelocidadePadrao => isMonstro ? velocidadeMonstro : velocidadeHumana;
+    private float VelocidadeRecuperacao => isMonstro ? velocidadeRecuperacaoMonstro : velocidadeRecuperacaoHumana;
+    private float DistanciaAtaque => isMonstro ? distanciaAtaqueMonstro : distanciaAtaqueHumana;
+    private float TempoEntreAtaques => isMonstro ? tempoEntreAtaquesMonstro : tempoEntreAtaquesHumana;
+    private float TempoPausaInvestida => isMonstro ? tempoPausaInvestidaMonstro : tempoPausaInvestidaHumana;
+    private float ForcaInvestida => isMonstro ? forcaInvestidaMonstro : forcaInvestidaHumana;
+    private float TempoParaCarregarInvestida => isMonstro ? tempoParaCarregarInvestidaMonstro : tempoParaCarregarInvestidaHumana;
+    private int DanoAtaqueNormal => isMonstro ? danoAtaqueMonstroNormal : danoAtaqueHumanoNormal;
+    private int DanoInvestida => isMonstro ? danoInvestidaMonstro : danoInvestidaHumano;
+    private float DistanciaHitbox => isMonstro ? distanciaHitboxMonstro : distanciaHitboxHumana;
+    private float RaioHitbox => isMonstro ? raioHitboxMonstro : raioHitboxHumana;
+
+
+    [Header("Configurações Compartilhadas")]
     public Transform pontoDeAtaque;
-    public float distanciaHitbox = 0.8f;
-    public float raioHitbox = 0.4f;
     public LayerMask layerPlayer;
 
     [Header("Áudio / Efeitos Sonoros")]
-    public AudioSource sfxSource; // Arraste o AudioSource do Boss aqui
-    public bool isMonstro = false; // O Manager vai mudar isso pra true na fase 2!
+    public AudioSource sfxSource;
+    public bool isMonstro = false;
+    private bool jaTransformou = false; // Trava para atualizar status na hora da cutscene
 
     [Header("Volumes (Ajuste na Unity)")]
-    [Range(0f, 1f)] public float volumePassoNormal = 0.3f;
-    [Range(0f, 1f)] public float volumePassoDash = 0.15f;
+    [Range(0f, 1f)] public float volumePassoNormal = 0.1f;
+    [Range(0f, 1f)] public float volumePassoDash = 0.9f;
     [Range(0f, 1f)] public float volumeAtaque = 0.8f;
     [Range(0f, 1f)] public float volumeGritos = 1.0f;
 
@@ -52,6 +88,7 @@ public class BossHumanAI : MonoBehaviour
     public bool estaAtacando = false;
     private bool emCooldown = false;
     private float timerInvestida;
+    private float velocidadeAtual;
     private bool jaDeuDanoNesseAtaque = false;
 
     void Start()
@@ -66,11 +103,20 @@ public class BossHumanAI : MonoBehaviour
         {
             player = playerObj.transform;
         }
-        timerInvestida = tempoParaCarregarInvestida;
+
+        timerInvestida = TempoParaCarregarInvestida;
+        velocidadeAtual = VelocidadePadrao;
     }
 
     void Update()
     {
+        if (isMonstro && !jaTransformou)
+        {
+            jaTransformou = true;
+            velocidadeAtual = VelocidadePadrao;
+            timerInvestida = TempoParaCarregarInvestida;
+        }
+
         if (player == null || estaAtacando || healthScript.currentHealth <= 0)
         {
             return;
@@ -79,17 +125,17 @@ public class BossHumanAI : MonoBehaviour
         timerInvestida -= Time.deltaTime;
         float distanciaDoPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (timerInvestida <= 0f && distanciaDoPlayer > distanciaAtaque)
+        if (timerInvestida <= 0f && distanciaDoPlayer > DistanciaAtaque)
         {
             StartCoroutine(AtaqueInvestida());
         }
-        else if (distanciaDoPlayer <= distanciaAtaque && !emCooldown)
+        else if (distanciaDoPlayer <= DistanciaAtaque && !emCooldown)
         {
             StartCoroutine(AtaqueNormal());
         }
         else
         {
-            if (distanciaDoPlayer > distanciaAtaque * 0.9f)
+            if (distanciaDoPlayer > DistanciaAtaque * 0.9f)
             {
                 PerseguirPlayer();
             }
@@ -104,7 +150,7 @@ public class BossHumanAI : MonoBehaviour
     private void PerseguirPlayer()
     {
         Vector2 direcao = (player.position - transform.position).normalized;
-        rb.linearVelocity = direcao * velocidade;
+        rb.linearVelocity = direcao * velocidadeAtual;
 
         anim.SetBool("isWalking", true);
         anim.SetFloat("InputX", direcao.x);
@@ -137,7 +183,6 @@ public class BossHumanAI : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        // TOCA O SOM DO GOLPE
         TocarSomAtaque();
 
         anim.SetTrigger("Attack");
@@ -148,34 +193,36 @@ public class BossHumanAI : MonoBehaviour
         StartCoroutine(IniciarCooldown());
     }
 
-    // =========================================================
-    // A NOVA INVESTIDA (ANIME DASH / FURACÃO DE ESPADAS)
-    // =========================================================
     private IEnumerator AtaqueInvestida()
     {
         estaAtacando = true;
         PararMovimento();
-        timerInvestida = tempoParaCarregarInvestida;
+        timerInvestida = TempoParaCarregarInvestida;
 
-        // --- NOVO: ZOOM CINEMATOGRÁFICO DE PREPARAÇÃO ---
-        // Dá um zoom sutil (de 5 para 4) durante o tempo de preparação
-        if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
-        {
-            BossBattleManager.Instance.cameraFollow.MudarZoomSmooth(4.0f, tempoPausaInvestida);
-        }
-
+        if (!isMonstro && sr != null) sr.color = new Color(1f, 0.4f, 0.4f);
         OlharParaOPlayer();
         TocarSomPreparaDash();
 
-        yield return new WaitForSeconds(tempoPausaInvestida);
+        if (isMonstro)
+        {
+            anim.SetTrigger("RunAttack");
+            anim.SetBool("isWalking", true);
+        }
 
-        // --- NOVO: VOLTA O ZOOM AO NORMAL RÁPIDO AO DAR O DASH ---
+        if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
+        {
+            BossBattleManager.Instance.cameraFollow.MudarZoomSmooth(4.0f, TempoPausaInvestida);
+        }
+
+        yield return new WaitForSeconds(TempoPausaInvestida);
+
+        if (!isMonstro && sr != null) sr.color = Color.white;
+
         if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
         {
             BossBattleManager.Instance.cameraFollow.MudarZoomSmooth(5.0f, 0.2f);
         }
 
-        // 2. GRAVA O DESTINO EXATO DE ONDE O JOGADOR ESTAVA
         Vector2 destinoDoDash = player.position;
         Vector2 direcaoDoDash = (destinoDoDash - (Vector2)transform.position).normalized;
 
@@ -185,7 +232,6 @@ public class BossHumanAI : MonoBehaviour
         float tempoSeguranca = 2f;
         float intervaloEntreGolpes = 0.15f;
         float timerGolpe = 0f;
-
         float intervaloEntrePassosDash = 0.08f;
         float timerPassoDash = 0f;
 
@@ -193,14 +239,13 @@ public class BossHumanAI : MonoBehaviour
 
         if (isMonstro) TocarSomDash();
 
-        // 3. A CORRIDA INSONE
         while (Vector2.Distance(transform.position, destinoDoDash) > 0.5f && tempoSeguranca > 0)
         {
             tempoSeguranca -= Time.deltaTime;
             timerGolpe -= Time.deltaTime;
             timerPassoDash -= Time.deltaTime;
 
-            rb.linearVelocity = direcaoDoDash * forcaInvestida;
+            rb.linearVelocity = direcaoDoDash * ForcaInvestida;
             AtualizarPosicaoDoAtaque();
 
             if (!isMonstro && timerPassoDash <= 0f)
@@ -211,7 +256,8 @@ public class BossHumanAI : MonoBehaviour
 
             if (timerGolpe <= 0f)
             {
-                anim.SetTrigger("RunAttack");
+                if (!isMonstro) anim.SetTrigger("RunAttack");
+
                 AplicarDanoMultiploNoDash();
                 timerGolpe = intervaloEntreGolpes;
             }
@@ -219,7 +265,6 @@ public class BossHumanAI : MonoBehaviour
             yield return null;
         }
 
-        // 4. CHEGOU NO DESTINO
         PararMovimento();
         anim.speed = 1f;
 
@@ -232,7 +277,13 @@ public class BossHumanAI : MonoBehaviour
     private IEnumerator IniciarCooldown()
     {
         emCooldown = true;
-        yield return new WaitForSeconds(tempoEntreAtaques);
+
+        velocidadeAtual = VelocidadeRecuperacao;
+
+        yield return new WaitForSeconds(TempoEntreAtaques);
+
+        velocidadeAtual = VelocidadePadrao;
+
         emCooldown = false;
     }
 
@@ -244,11 +295,12 @@ public class BossHumanAI : MonoBehaviour
         float y = anim.GetFloat("LastInputY");
         Vector2 direcao = new Vector2(x, y).normalized;
 
-        pontoDeAtaque.localPosition = direcao * distanciaHitbox;
+        // CORRIGIDO PARA A LETRA MAIÚSCULA
+        pontoDeAtaque.localPosition = direcao * DistanciaHitbox;
     }
 
     // =========================================================
-    // GERENCIADOR DE ÁUDIO (Escolhe automaticamente se é humano ou monstro)
+    // GERENCIADOR DE ÁUDIO 
     // =========================================================
     public void TocarPasso()
     {
@@ -290,19 +342,20 @@ public class BossHumanAI : MonoBehaviour
     // ==========================================
     public void CausarDanoNormal()
     {
-        if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(danoAtaqueNormal);
+        if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(DanoAtaqueNormal);
     }
 
     public void CausarDanoInvestida()
     {
-        if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(danoInvestida);
+        if (!jaDeuDanoNesseAtaque) AplicarDanoNoPlayer(DanoInvestida);
     }
 
     private void AplicarDanoNoPlayer(int valorDano)
     {
         if (pontoDeAtaque == null) return;
 
-        Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, raioHitbox, layerPlayer);
+        // CORRIGIDO PARA A LETRA MAIÚSCULA
+        Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, RaioHitbox, layerPlayer);
         if (hit != null)
         {
             PlayerStats playerHealth = hit.GetComponent<PlayerStats>();
@@ -318,13 +371,14 @@ public class BossHumanAI : MonoBehaviour
     {
         if (pontoDeAtaque == null) return;
 
-        Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, raioHitbox, layerPlayer);
+        // CORRIGIDO PARA A LETRA MAIÚSCULA
+        Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, RaioHitbox, layerPlayer);
         if (hit != null)
         {
             PlayerStats playerHealth = hit.GetComponent<PlayerStats>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(danoInvestida);
+                playerHealth.TakeDamage(DanoInvestida);
             }
         }
     }
@@ -334,7 +388,8 @@ public class BossHumanAI : MonoBehaviour
         if (pontoDeAtaque != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(pontoDeAtaque.position, raioHitbox);
+            // CORRIGIDO PARA A LETRA MAIÚSCULA
+            Gizmos.DrawWireSphere(pontoDeAtaque.position, RaioHitbox);
         }
     }
 }

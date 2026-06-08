@@ -13803,17 +13803,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b5f267ee9854b447aca9cf919907938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHumanAI
-  velocidade: 3
-  distanciaAtaque: 1.5
-  tempoEntreAtaques: 1.5
-  tempoPausaInvestida: 2
-  forcaInvestida: 12
-  tempoParaCarregarInvestida: 8
-  danoAtaqueNormal: 3
-  danoInvestida: 5
+  velocidadeHumana: 3
+  velocidadeRecuperacaoHumana: 2
+  distanciaAtaqueHumana: 1.5
+  tempoEntreAtaquesHumana: 1.5
+  tempoPausaInvestidaHumana: 2
+  forcaInvestidaHumana: 12
+  tempoParaCarregarInvestidaHumana: 8
+  danoAtaqueHumanoNormal: 4
+  danoInvestidaHumano: 8
+  distanciaHitboxHumana: 1
+  raioHitboxHumana: 0.3
+  velocidadeMonstro: 2.5
+  velocidadeRecuperacaoMonstro: 1.5
+  distanciaAtaqueMonstro: 1.8
+  tempoEntreAtaquesMonstro: 2
+  tempoPausaInvestidaMonstro: 3
+  forcaInvestidaMonstro: 18
+  tempoParaCarregarInvestidaMonstro: 6
+  danoAtaqueMonstroNormal: 8
+  danoInvestidaMonstro: 16
+  distanciaHitboxMonstro: 1.5
+  raioHitboxMonstro: 0.6
   pontoDeAtaque: {fileID: 2101547777}
-  distanciaHitbox: 1
-  raioHitbox: 0.3
   layerPlayer:
     serializedVersion: 2
     m_Bits: 1
@@ -30442,7 +30454,7 @@ MonoBehaviour:
   bossAnim: {fileID: 97992637}
   pontoFrenteTrono: {fileID: 535690379}
   velocidadeCaminhadaBoss: 2.5
-  animatorMonstro: {fileID: 0}
+  animatorMonstro: {fileID: 9100000, guid: f83dfdab5158bb04c98640117dab4ddc, type: 2}
   falasDoRei: {fileID: 11400000, guid: e02cef6a800f79445b55d86b1970456d, type: 2}
   falasDoMonstro: {fileID: 11400000, guid: 1a7ffd9b9d1e80b41a163363ffdb3e75, type: 2}
   playerTransform: {fileID: 363364949}
