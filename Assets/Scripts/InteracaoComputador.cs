@@ -1,47 +1,54 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Obrigatório para gerenciamento de cenas
+using UnityEngine.SceneManagement;
 
 public class InteracaoComputador : MonoBehaviour
 {
-    // Variável interna para saber se o jogador está na área
-    private bool estaPertoDoComputador = false;
+    private Transform jogador;
+    public float distanciaInteracao = 3.0f; // Distância mínima para interagir
 
-    // Detecta quando algo entra na área do computador
-    private void OnTriggerEnter(Collider other)
+    void Start()
     {
-        // Verifica se quem entrou tem a tag "Player"
-        if (other.CompareTag("Player"))
+        // Encontra o jogador automaticamente pela Tag
+        GameObject objJogador = GameObject.FindGameObjectWithTag("Player");
+        if (objJogador != null)
         {
-            estaPertoDoComputador = true;
-            Debug.Log("Jogador perto do computador. Aperte ESPAÇO para interagir.");
+            jogador = objJogador.transform;
         }
     }
 
-    // Detecta quando o jogador se afasta do computador
-    private void OnTriggerExit(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player"))
+        // Se o jogador existir, verifica a distância entre ele e o computador
+        if (jogador != null)
         {
-            estaPertoDoComputador = false;
-            Debug.Log("Jogador se afastou do computador.");
+            float distancia = Vector3.Distance(transform.position, jogador.position);
+
+            // Se estiver perto o suficiente e apertar Espaço ou E
+            if (distancia <= distanciaInteracao && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E)))
+            {
+                AcessarComputador();
+            }
         }
     }
 
-    // O Update roda a cada frame do jogo
-    private void Update()
+    public void AcessarComputador()
     {
-        // Se o jogador estiver perto E apertar a tecla Espaço
-        if (estaPertoDoComputador && Input.GetKeyDown(KeyCode.Space))
+        if (DialogueManagerBasico.Instance != null)
         {
-            AcessarComputador();
+            DialogueManagerBasico.Instance.IniciarSequencia(DialogueManagerBasico.Instance.falasCena2Laboratorio, true);
+        }
+        else
+        {
+            Debug.LogWarning("DialogueManagerBasico não encontrado! Pulando o diálogo.");
+            ViajarParaMundo2D();
         }
     }
 
-    private void AcessarComputador()
+    private void ViajarParaMundo2D()
     {
-        Debug.Log("Carregando o mundo 2D...");
-        
-        // Carrega a cena usando o nome exato (sem o ".unity" no final)
+        GameObject jogador3D = GameObject.FindGameObjectWithTag("Player");
+        if (jogador3D != null) Destroy(jogador3D);
+
         SceneManager.LoadScene("Primeira_Cidade");
     }
 }
