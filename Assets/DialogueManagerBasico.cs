@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using System.Collections; // Necessário para usar Coroutines (comandos de tempo)
+using System.Collections;
 
 [System.Serializable]
 public struct LinhaDoDialogo
@@ -20,17 +20,21 @@ public class DialogueManagerBasico : MonoBehaviour
     public TextMeshProUGUI txtFala;
 
     [Header("Configuração do Tempo")]
-    [Tooltip("Tempo em segundos que cada frase fica visível na tela")]
     public float tempoPorFala = 4.0f;
 
     [Header("Roteiro das Cenas")]
     public LinhaDoDialogo[] falasCena1Universidade;
-    public LinhaDoDialogo[] falasCena2Laboratorio;
+
+    [Tooltip("Falas automáticas ao chegar PERTO do computador")]
+    public LinhaDoDialogo[] falasCena2LabAproximacao; // "...O que é isso?"
+
+    [Tooltip("Falas ao INTERAGIR apertando E no computador")]
+    public LinhaDoDialogo[] falasCena2LabInteracao;   // "Espera— o que está acontecendo?!"
 
     private LinhaDoDialogo[] falasAtuais;
     private int indiceAtual = 0;
     private bool carregandoCena2 = false;
-    private Coroutine rotinaDoDialogo; // Guarda a rotina atual para controle
+    private Coroutine rotinaDoDialogo;
 
     private void Awake()
     {
@@ -40,8 +44,6 @@ public class DialogueManagerBasico : MonoBehaviour
     void Start()
     {
         painelDialogo.SetActive(false);
-
-        // Dispara automaticamente a CENA 1 assim que o jogo inicia
         IniciarSequencia(falasCena1Universidade, false);
     }
 
@@ -54,33 +56,25 @@ public class DialogueManagerBasico : MonoBehaviour
         painelDialogo.SetActive(true);
         BloquearJogador(true);
 
-        // Se já houver um diálogo rodando por segurança, nós o paramos antes de começar o novo
         if (rotinaDoDialogo != null)
         {
             StopCoroutine(rotinaDoDialogo);
         }
 
-        // Inicia a contagem de tempo automática
         rotinaDoDialogo = StartCoroutine(FluxoDoDialogoAutomatico());
     }
 
-    // Esta função controla o relógio invisível do diálogo
     IEnumerator FluxoDoDialogoAutomatico()
     {
         while (indiceAtual < falasAtuais.Length)
         {
-            // Atualiza os textos na tela
             txtNome.text = falasAtuais[indiceAtual].nome;
             txtFala.text = falasAtuais[indiceAtual].texto;
 
-            // MÁGICA: O jogo continua rodando, mas este script espera os segundos passarem
             yield return new WaitForSeconds(tempoPorFala);
-
-            // Avança o índice para a próxima frase
             indiceAtual++;
         }
 
-        // Se o loop terminou, significa que todas as falas daquela cena acabaram
         FinalizarDialogo();
     }
 
@@ -89,7 +83,6 @@ public class DialogueManagerBasico : MonoBehaviour
         painelDialogo.SetActive(false);
         BloquearJogador(false);
 
-        // Se acabou de ler a Cena 2 (Laboratório), viaja para o mundo 2D
         if (carregandoCena2)
         {
             ViajarParaMundo2D();
