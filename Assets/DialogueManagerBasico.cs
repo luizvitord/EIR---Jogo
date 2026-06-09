@@ -24,12 +24,8 @@ public class DialogueManagerBasico : MonoBehaviour
 
     [Header("Roteiro das Cenas")]
     public LinhaDoDialogo[] falasCena1Universidade;
-
-    [Tooltip("Falas automáticas ao chegar PERTO do computador")]
-    public LinhaDoDialogo[] falasCena2LabAproximacao; // "...O que é isso?"
-
-    [Tooltip("Falas ao INTERAGIR apertando E no computador")]
-    public LinhaDoDialogo[] falasCena2LabInteracao;   // "Espera— o que está acontecendo?!"
+    public LinhaDoDialogo[] falasCena2LabAproximacao;
+    public LinhaDoDialogo[] falasCena2LabInteracao;
 
     private LinhaDoDialogo[] falasAtuais;
     private int indiceAtual = 0;
@@ -44,10 +40,12 @@ public class DialogueManagerBasico : MonoBehaviour
     void Start()
     {
         painelDialogo.SetActive(false);
-        IniciarSequencia(falasCena1Universidade, false);
+        // O terceiro "true" avisa que a faculdade pode passar e fechar sozinha
+        IniciarSequencia(falasCena1Universidade, false, true);
     }
 
-    public void IniciarSequencia(LinhaDoDialogo[] novasFalas, bool ehCena2)
+    // Adicionamos o "fecharAutomatico" na regra
+    public void IniciarSequencia(LinhaDoDialogo[] novasFalas, bool ehCena2, bool fecharAutomatico = true)
     {
         falasAtuais = novasFalas;
         indiceAtual = 0;
@@ -61,15 +59,21 @@ public class DialogueManagerBasico : MonoBehaviour
             StopCoroutine(rotinaDoDialogo);
         }
 
-        rotinaDoDialogo = StartCoroutine(FluxoDoDialogoAutomatico());
+        rotinaDoDialogo = StartCoroutine(FluxoDoDialogoAutomatico(fecharAutomatico));
     }
 
-    IEnumerator FluxoDoDialogoAutomatico()
+    IEnumerator FluxoDoDialogoAutomatico(bool fecharAutomatico)
     {
         while (indiceAtual < falasAtuais.Length)
         {
             txtNome.text = falasAtuais[indiceAtual].nome;
             txtFala.text = falasAtuais[indiceAtual].texto;
+
+            // MÁGICA DO CONGELAMENTO: Se for a última frase e não for para fechar, paramos o relógio aqui!
+            if (indiceAtual == falasAtuais.Length - 1 && !fecharAutomatico)
+            {
+                yield break; // Encerra a rotina de tempo silenciosamente, deixando o texto na tela para sempre
+            }
 
             yield return new WaitForSeconds(tempoPorFala);
             indiceAtual++;
@@ -94,6 +98,8 @@ public class DialogueManagerBasico : MonoBehaviour
         PlayerMovement movScript = FindObjectOfType<PlayerMovement>();
         if (movScript != null)
         {
+            // Opcional: Se quiser que ele ande na sala COM o aviso na tela, 
+            // basta comentar a linha abaixo. 
             movScript.canMove = !bloquear;
         }
     }
