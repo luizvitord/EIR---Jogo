@@ -9,10 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private Animator animator;
 
-    // ---> NOVO: Precisamos saber qual é a imagem atual do personagem
     private SpriteRenderer spriteRenderer;
 
     public bool canMove = true;
+
+    // ---> NOVO: Variável de Trava Cinematográfica
+    [Header("Configurações de Cena")]
+    public bool isCinematicScene = false;
 
     [Header("Controladores de Animação")]
     [SerializeField] private RuntimeAnimatorController baseUnarmedController;
@@ -30,11 +33,10 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip somAtaqueMadeira;
     public AudioClip somAtaqueFerro;
 
-    // ---> NOVO: Configurações do Rastro da Aura <---
     [Header("Efeito Fantasma (Aura)")]
-    public float tempoEntreFantasmas = 0.08f; // Quão rápido os clones surgem
-    public float tempoDeVidaFantasma = 0.4f;  // Quanto tempo eles demoram pra sumir
-    public Color corDoFantasma = new Color(1f, 0.84f, 0f, 0.6f); // Dourado com leve transparência
+    public float tempoEntreFantasmas = 0.08f;
+    public float tempoDeVidaFantasma = 0.4f;
+    public Color corDoFantasma = new Color(1f, 0.84f, 0f, 0.6f);
     private float timerFantasma = 0f;
 
     public enum WeaponType { Unarmed, WoodenSword, IronSword }
@@ -48,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        // Pega a referência do renderizador de imagem do seu personagem
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         AtualizarControllerDaArma();
@@ -76,8 +77,8 @@ public class PlayerMovement : MonoBehaviour
                 timerPasso = intervaloPassos;
             }
 
-            // ---> NOVO: LÓGICA DO RASTRO DA AURA <---
-            if (GetComponent<PlayerStats>().isAuraActive)
+            // --- LÓGICA DO RASTRO DA AURA ---
+            if (GetComponent<PlayerStats>() != null && GetComponent<PlayerStats>().isAuraActive)
             {
                 timerFantasma -= Time.deltaTime;
                 if (timerFantasma <= 0f)
@@ -90,16 +91,15 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             timerPasso = 0f;
-            // Zera o timer do fantasma para que, ao voltar a andar, crie um na hora
             timerFantasma = 0f;
         }
     }
 
     void FixedUpdate()
     {
-        Debug.Log("O movimento foi bloqueado porque canMove está FALSO!");
         if (!canMove)
         {
+            Debug.Log("O movimento foi bloqueado porque canMove está FALSO!");
             rb.linearVelocity = Vector2.zero;
             return;
         }
@@ -109,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        Debug.Log("O Input System enviou o comando! Valor do teclado: " + context.ReadValue<Vector2>());
         if (!canMove)
         {
             moveInput = Vector2.zero;
@@ -142,11 +141,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove) return;
 
+        // Se for cena cinematográfica, trava o ataque na raiz
+        if (isCinematicScene) return;
+
         if (context.started)
         {
             if (currentWeapon != WeaponType.Unarmed)
             {
-                if (GetComponent<PlayerCombat>().PodeAtacar())
+                PlayerCombat combatStats = GetComponent<PlayerCombat>();
+                if (combatStats != null && combatStats.PodeAtacar())
                 {
                     animator.SetTrigger("Attack");
 
@@ -162,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
                         }
                     }
 
-                    GetComponent<PlayerCombat>().PerformMeleeAttack();
+                    combatStats.PerformMeleeAttack();
                 }
             }
         }
@@ -171,6 +174,10 @@ public class PlayerMovement : MonoBehaviour
     public void AtualizarControllerDaArma()
     {
         if (animator == null) return;
+
+        // ---> NOVO: Trava de Segurança
+        // Se for uma cena de história (Cena 5), não tente forçar uma arma na mão do jogador!
+        if (isCinematicScene) return;
 
         switch (currentWeapon)
         {
@@ -227,13 +234,7 @@ public class PlayerMovement : MonoBehaviour
         sr.sprite = spriteRenderer.sprite;
         sr.color = corDoFantasma;
 
-        // ---> CORREÇÃO AQUI <---
-        // Força o fantasma a aparecer usando o mesmo Sorting Layer do jogador
         sr.sortingLayerID = spriteRenderer.sortingLayerID;
-
-        // Em vez de colocar -1 (que pode afundar no mapa), colocamos o fantasma
-        // exatamente na MESMA camada do jogador. Como ele tem transparência,
-        // o efeito visual continua perfeito e não entra debaixo da grama!
         sr.sortingOrder = spriteRenderer.sortingOrder;
 
         StartCoroutine(FadeFantasma(sr));
@@ -247,14 +248,12 @@ public class PlayerMovement : MonoBehaviour
         while (tempo < tempoDeVidaFantasma)
         {
             tempo += Time.deltaTime;
-            // Vai reduzindo o Alpha de 0.6 para 0 suavemente
             float alphaAtual = Mathf.Lerp(corInicial.a, 0f, tempo / tempoDeVidaFantasma);
 
             sr.color = new Color(corInicial.r, corInicial.g, corInicial.b, alphaAtual);
             yield return null;
         }
 
-        // Quando ficar 100% invisível, destrói o objeto fantasma
         Destroy(sr.gameObject);
     }
 }

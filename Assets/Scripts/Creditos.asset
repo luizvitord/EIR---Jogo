@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b74d54b91df6594a9d4842a420a3693, type: 3}
+  m_Name: Creditos
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  talkScript:
+  - name: 
+    text: "Meses ap\xF3s seu desaparecimento, Kuro retornou.\n\nPara o mundo, aquilo
+      era imposs\xEDvel.\n\nUm estudante universit\xE1rio desapareceu sem deixar
+      rastros e reapareceu meses depois exatamente no mesmo lugar de onde havia sumido.\n\nNenhuma
+      explica\xE7\xE3o foi encontrada.\n\nNenhuma prova jamais foi descoberta.\n\nMas
+      a verdade era muito mais estranha do que qualquer pessoa poderia imaginar.\n\nO
+      que Kuro acreditava ser apenas um jogo nunca foi realmente um jogo.\n\nEir
+      era algo muito maior.\n\nUm mundo constru\xEDdo pela pr\xF3pria Fonte.\n\nUma
+      realidade existente entre a vida e a morte.\n\nUm lugar onde almas desesperadas
+      eram atra\xEDdas quando buscavam aquilo que mais desejavam.\n\nKuro nunca soube
+      disso.\n\nAssim como nunca soube que, no instante em que foi sugado para Eir,
+      sua exist\xEAncia passou a estar conectada \xE0quele mundo.\n\nSua vida foi
+      ligada \xE0 Fonte.\n\nSeu destino passou a ser o mesmo destino daquele reino.\n\nSe
+      morresse em Eir...\n\nSeu corpo jamais despertaria novamente.\n\nSe fracassasse
+      diante de Grakmor...\n\nSeu cora\xE7\xE3o pararia no mundo real.\n\nSe fosse
+      consumido por Aetherion...\n\nSeu nome se tornaria apenas mais um entre os
+      desaparecidos.\n\nPor isso a morte em Eir nunca significou apenas o fim de
+      uma aventura.\n\nSignificava o fim de tudo.\n\nEnquanto atravessava Valedorn,
+      Mourvane e as ru\xEDnas de Eldrath, Kuro acreditava estar procurando uma cura.\n\nMas,
+      sem perceber, estava lutando pela pr\xF3pria vida.\n\nA mesma Fonte que destruiu
+      Aetherion era tamb\xE9m a \xFAnica coisa capaz de salv\xE1-lo.\n\nDois homens.\n\nO
+      mesmo medo.\n\nO mesmo objetivo.\n\nSobreviver.\n\nA diferen\xE7a era que Aetherion
+      permitiu que seu medo o consumisse.\n\nKuro n\xE3o.\n\nAo derrotar o Rei Ca\xEDdo
+      e obter a Cura da Fonte: EIR, o v\xEDnculo entre sua vida e a Fonte foi finalmente
+      conclu\xEDdo.\n\nQuando retornou ao mundo real, algo imposs\xEDvel havia acontecido.\n\nO
+      c\xE2ncer terminal que antes condenava seu futuro simplesmente desapareceu.\n\nNenhum
+      m\xE9dico encontrou explica\xE7\xF5es.\n\nNenhum exame encontrou vest\xEDgios
+      da doen\xE7a.\n\nEra como se ela nunca tivesse existido.\n\nOs especialistas
+      chamaram de remiss\xE3o espont\xE2nea.\n\nAlguns falaram em milagre.\n\nOutros
+      em erro m\xE9dico.\n\nA verdade permaneceu enterrada em um mundo que ningu\xE9m
+      al\xE9m de Kuro conhecia.\n\nOu pelo menos era o que ele acreditava.\n\nPorque,
+      em noites silenciosas, quando o vento soprava pela janela de seu quarto, Kuro
+      ainda tinha a sensa\xE7\xE3o de estar sendo observado.\n\nComo se uma presen\xE7a
+      distante ainda existisse.\n\nEsperando.\n\nObservando.\n\nE \xE0s vezes...\n\nPor
+      apenas um instante...\n\nEle conseguia ouvir uma voz.\n\nFria.\n\nMet\xE1lica.\n\nFamiliar.\n\n\"Protocolo
+      conclu\xEDdo.\"\n\nTalvez tudo tivesse acabado.\n\nOu talvez Eir estivesse
+      apenas aguardando o momento de abrir suas portas novamente.\n\nFim."
+    portrait: {fileID: 0}
