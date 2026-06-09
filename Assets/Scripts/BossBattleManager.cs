@@ -214,6 +214,17 @@ public class BossBattleManager : MonoBehaviour
             bossAnim.runtimeAnimatorController = animatorMonstro;
             bossAnim.SetTrigger("Spawn");
 
+            if (bossHealth != null)
+            {
+                bossHealth.maxHealth = 400;
+                bossHealth.currentHealth = 400;
+
+                if (bossHealthBar != null)
+                {
+                    bossHealthBar.RedimensionarBarra(800f); // Ajuste este valor se ficar muito grande
+                }
+            }
+
             BossHumanAI iaDoBoss = bossObject.GetComponent<BossHumanAI>();
             if (iaDoBoss != null)
             {
@@ -377,6 +388,14 @@ public class BossBattleManager : MonoBehaviour
 
             sistemaDialogo.onDialogueComplete = null;
             if (painelDialogo != null) painelDialogo.SetActive(false);
+        }
+
+        PopUpConquista popUp = Object.FindFirstObjectByType<PopUpConquista>();
+        if (popUp != null)
+        {
+            popUp.MostrarPopUpCura();
+
+            yield return new WaitForSeconds(0.5f + 2.5f + 0.5f);
         }
 
         if (cameraFollow != null)

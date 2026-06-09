@@ -85,4 +85,17 @@ public class BossHealthBar : MonoBehaviour
             textoNomeBoss.text = nomeDoBoss;
         }
     }
+
+    public void RedimensionarBarra(float novaLargura)
+    {
+        if (barraPreenchimento != null)
+        {
+            // Pega o transform da barra e altera apenas a largura
+            RectTransform rt = barraPreenchimento.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.sizeDelta = new Vector2(novaLargura, rt.sizeDelta.y);
+            }
+        }
+    }
 }

@@ -15,9 +15,16 @@ public class PopUpConquista : MonoBehaviour
     public float tempoFade = 0.5f;
     public float tempoVisivel = 2.5f;
 
+    [Header("PopUp de Cura (Novo)")]
+    public CanvasGroup canvasGroupCura;
+    public AudioClip somPopUpCura;
+
     [Header("PopUp da Aura (Novo)")]
     public CanvasGroup canvasGroupAura;
     public AudioClip somPopUpAura;
+
+    [Header("UI Permanente")]
+    public GameObject slotCuraUI; // Arraste o objeto que você acabou de criar aqui
 
     [Header("Cutscene da Aura (Câmera)")]
     public float zoomDaCutscene = 2.5f;
@@ -150,6 +157,47 @@ public class PopUpConquista : MonoBehaviour
         if (sistemaDeFarm != null)
         {
             sistemaDeFarm.IniciarFarm();
+        }
+    }
+
+    // --- NOVO MÉTODO ---
+    public void MostrarPopUpCura()
+    {
+        StartCoroutine(RotinaPopUpCura());
+    }
+
+    private IEnumerator RotinaPopUpCura()
+    {
+        if (canvasGroupCura != null)
+        {
+            if (audioSource != null && somPopUpCura != null)
+            {
+                audioSource.PlayOneShot(somPopUpCura, 0.8f);
+            }
+
+            // FADE IN
+            while (canvasGroupCura.alpha < 1f)
+            {
+                canvasGroupCura.alpha += Time.deltaTime / tempoFade;
+                yield return null;
+            }
+            canvasGroupCura.alpha = 1f;
+
+            // PAUSA
+            yield return new WaitForSeconds(tempoVisivel);
+
+            // FADE OUT
+            while (canvasGroupCura.alpha > 0f)
+            {
+                canvasGroupCura.alpha -= Time.deltaTime / tempoFade;
+                yield return null;
+            }
+            canvasGroupCura.alpha = 0f;
+        }
+        // 4. ATIVA O QUADRINHO PERMANENTE NA HUD
+        if (slotCuraUI != null)
+        {
+            slotCuraUI.SetActive(true);
         }
     }
 }

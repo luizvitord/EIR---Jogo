@@ -32073,7 +32073,7 @@ GameObject:
   - component: {fileID: 701370216}
   - component: {fileID: 701370215}
   m_Layer: 5
-  m_Name: SwordIcon
+  m_Name: AuraIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
