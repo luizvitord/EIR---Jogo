@@ -13,6 +13,16 @@ public class BossBattleManager : MonoBehaviour
     public float velocidadeCaminhadaBoss = 2.5f;
     public RuntimeAnimatorController animatorMonstro;
 
+    [Header("Efeitos da Transformação (NOVO)")]
+    public AudioClip somGritoMonstro; // Arraste o rugido do monstro aqui
+    public float intensidadeTremor = 0.4f; // Força da tremida da tela
+    public float duracaoTremor = 2.0f; // Tempo que a tela fica tremendo
+
+    [Header("Final do Boss")]
+    public RuntimeAnimatorController animatorHumano;
+    public DialogueData falasMorteBoss;
+
+    [Header("Diálogos Iniciais")]
     public DialogueData falasDoRei;
     public DialogueData falasDoMonstro;
 
@@ -98,19 +108,15 @@ public class BossBattleManager : MonoBehaviour
             if (bossAnim != null)
             {
                 bossAnim.SetBool("isWalking", false);
-                bossAnim.SetFloat("LastInputX", direcao.x);
-                bossAnim.SetFloat("LastInputY", direcao.y);
             }
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        // ==========================================
-        // DIÁLOGO (Força-bruta local)
-        // ==========================================
+        FazerBossOlharParaPlayer();
+
         if (sistemaDialogo != null && falasDoRei != null)
         {
-            // 1. Liga o painel para impedir o erro da Coroutine
             if (painelDialogo != null) painelDialogo.SetActive(true);
 
             bool dialogoConcluido = false;
@@ -118,18 +124,11 @@ public class BossBattleManager : MonoBehaviour
 
             sistemaDialogo.StartDialogue(falasDoRei);
 
-            while (!dialogoConcluido)
-            {
-                yield return null;
-            }
+            while (!dialogoConcluido) yield return null;
 
             sistemaDialogo.onDialogueComplete = null;
-
-            // 2. O diálogo acabou. Esconde o painel na força
             if (painelDialogo != null) painelDialogo.SetActive(false);
 
-            // 3. O DialogueSystem acabou de soltar o jogador. Vamos TRAVÁ-LO DE NOVO 
-            // para ele não andar enquanto a câmera volta.
             if (playerTransform != null)
             {
                 PlayerMovement movScript = playerTransform.GetComponent<PlayerMovement>();
@@ -145,7 +144,6 @@ public class BossBattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        // 4. Aqui a cutscene finalmente acaba de verdade, então liberamos tudo
         if (hudPrincipal != null) hudPrincipal.SetActive(true);
 
         if (playerTransform != null)
@@ -216,15 +214,11 @@ public class BossBattleManager : MonoBehaviour
             bossAnim.runtimeAnimatorController = animatorMonstro;
             bossAnim.SetTrigger("Spawn");
 
-            // =========================================================
-            // AQUI ESTÁ A MÁGICA: AVISA A IA QUE AGORA OS SONS SÃO DE MONSTRO!
-            // E LIMPA A MEMÓRIA DE ATAQUES PARA DESTRAVAR O CÓDIGO
-            // =========================================================
             BossHumanAI iaDoBoss = bossObject.GetComponent<BossHumanAI>();
             if (iaDoBoss != null)
             {
                 iaDoBoss.isMonstro = true;
-                iaDoBoss.estaAtacando = false; // <--- CORREÇÃO 1
+                iaDoBoss.estaAtacando = false;
             }
         }
 
@@ -232,24 +226,20 @@ public class BossBattleManager : MonoBehaviour
         {
             bossHealth.currentHealth = bossHealth.maxHealth;
 
-            // 1. Religa o colisor
             Collider2D bossCollider = bossObject.GetComponent<Collider2D>();
             if (bossCollider != null) bossCollider.enabled = true;
 
-            // 2. DESCONGELA A FÍSICA (Tira de Static e volta para Dynamic)
             Rigidbody2D rbBoss = bossObject.GetComponent<Rigidbody2D>();
             if (rbBoss != null) rbBoss.bodyType = RigidbodyType2D.Dynamic;
 
-            // 3. TRAZ O SPRITE PARA A FRENTE NOVAMENTE (Tira do -10)
             SpriteRenderer srBoss = bossObject.GetComponent<SpriteRenderer>();
-            if (srBoss != null) srBoss.sortingOrder = 0; // Coloque 0 ou o valor padrão que você usa
+            if (srBoss != null) srBoss.sortingOrder = 0;
         }
 
         yield return new WaitForSeconds(2.5f);
 
-        // ==========================================
-        // DIÁLOGO MONSTRO (Força-bruta local)
-        // ==========================================
+        FazerBossOlharParaPlayer();
+
         if (sistemaDialogo != null && falasDoMonstro != null)
         {
             if (painelDialogo != null) painelDialogo.SetActive(true);
@@ -259,13 +249,9 @@ public class BossBattleManager : MonoBehaviour
 
             sistemaDialogo.StartDialogue(falasDoMonstro);
 
-            while (!dialogoConcluido)
-            {
-                yield return null;
-            }
+            while (!dialogoConcluido) yield return null;
 
             sistemaDialogo.onDialogueComplete = null;
-
             if (painelDialogo != null) painelDialogo.SetActive(false);
 
             if (playerTransform != null)
@@ -274,6 +260,20 @@ public class BossBattleManager : MonoBehaviour
                 if (movScript != null) movScript.canMove = false;
             }
         }
+
+        // =======================================================
+        // O GRAN FINALE: GRITO E TREMOR DE TELA
+        // =======================================================
+        if (bgmSource != null && somGritoMonstro != null)
+        {
+            // Toca o grito no máximo (1f)
+            bgmSource.PlayOneShot(somGritoMonstro, 1f);
+        }
+
+        // Dá inicio à tremida épica na câmera
+        yield return StartCoroutine(TremerTela(duracaoTremor, intensidadeTremor));
+        // =======================================================
+
 
         if (cameraFollow != null)
         {
@@ -294,9 +294,6 @@ public class BossBattleManager : MonoBehaviour
 
         if (hudPrincipal != null) hudPrincipal.SetActive(true);
 
-        // =========================================================
-        // CORREÇÃO 2: RELIGA O CÉREBRO DO MONSTRO APÓS A CUTSCENE
-        // =========================================================
         BossHumanAI bossAI = bossObject.GetComponent<BossHumanAI>();
         if (bossAI != null) bossAI.enabled = true;
 
@@ -312,5 +309,148 @@ public class BossBattleManager : MonoBehaviour
             bgmSource.loop = true;
             bgmSource.Play();
         }
+    }
+
+    public void IniciarMorteFinalBoss(EnemyHealth scriptMorte)
+    {
+        StartCoroutine(SequenciaMorteFinal(scriptMorte));
+    }
+
+    private IEnumerator SequenciaMorteFinal(EnemyHealth scriptMorte)
+    {
+        if (bgmSource != null) bgmSource.Stop();
+
+        if (playerTransform != null)
+        {
+            PlayerMovement movScript = playerTransform.GetComponent<PlayerMovement>();
+            if (movScript != null) movScript.canMove = false;
+
+            MonoBehaviour combatScript = playerTransform.GetComponent("PlayerCombat") as MonoBehaviour;
+            if (combatScript != null) combatScript.enabled = false;
+
+            Rigidbody2D rbKuro = playerTransform.GetComponent<Rigidbody2D>();
+            if (rbKuro != null) rbKuro.linearVelocity = Vector2.zero;
+
+            Animator animKuro = playerTransform.GetComponent<Animator>();
+            if (animKuro != null) animKuro.SetBool("isWalking", false);
+        }
+
+        yield return new WaitForSeconds(1.2f);
+
+        if (bossAnim != null && animatorHumano != null)
+        {
+            bossAnim.runtimeAnimatorController = animatorHumano;
+            bossAnim.SetFloat("LastInputX", 0);
+            bossAnim.SetFloat("LastInputY", -1);
+            bossAnim.SetTrigger("Death");
+        }
+
+        SpriteRenderer srBoss = bossObject.GetComponent<SpriteRenderer>();
+        if (srBoss != null) srBoss.sortingOrder = 10;
+
+        if (bgmSource != null && scriptMorte.musicaVitoriaBoss != null)
+        {
+            bgmSource.clip = scriptMorte.musicaVitoriaBoss;
+            bgmSource.loop = false;
+            bgmSource.volume = 0.4f;
+            bgmSource.Play();
+        }
+
+        if (cameraFollow != null)
+        {
+            cameraFollow.target = bossObject.transform;
+            cameraFollow.MudarZoomSmooth(zoomFocoSize, 1.5f);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        if (sistemaDialogo != null && falasMorteBoss != null)
+        {
+            if (painelDialogo != null) painelDialogo.SetActive(true);
+
+            bool dialogoConcluido = false;
+            sistemaDialogo.onDialogueComplete = () => { dialogoConcluido = true; };
+
+            sistemaDialogo.StartDialogue(falasMorteBoss);
+
+            while (!dialogoConcluido) yield return null;
+
+            sistemaDialogo.onDialogueComplete = null;
+            if (painelDialogo != null) painelDialogo.SetActive(false);
+        }
+
+        if (cameraFollow != null)
+        {
+            cameraFollow.target = playerTransform;
+            cameraFollow.MudarZoomSmooth(zoomNormal, 1.5f);
+        }
+
+        if (srBoss != null) srBoss.sortingOrder = -10;
+
+        scriptMorte.DarRecompensasDaMorte();
+
+        yield return new WaitForSeconds(1.0f);
+
+        if (playerTransform != null)
+        {
+            PlayerMovement movScript = playerTransform.GetComponent<PlayerMovement>();
+            if (movScript != null) movScript.canMove = true;
+
+            MonoBehaviour combatScript = playerTransform.GetComponent("PlayerCombat") as MonoBehaviour;
+            if (combatScript != null) combatScript.enabled = true;
+        }
+    }
+
+    private void FazerBossOlharParaPlayer()
+    {
+        if (bossAnim != null && playerTransform != null && bossObject != null)
+        {
+            Vector2 direcaoParaPlayer = ((Vector2)playerTransform.position - (Vector2)bossObject.transform.position).normalized;
+
+            float inputX = 0;
+            float inputY = 0;
+
+            if (Mathf.Abs(direcaoParaPlayer.x) > Mathf.Abs(direcaoParaPlayer.y))
+            {
+                inputX = direcaoParaPlayer.x > 0 ? 1 : -1;
+            }
+            else
+            {
+                inputY = direcaoParaPlayer.y > 0 ? 1 : -1;
+            }
+
+            bossAnim.SetFloat("LastInputX", inputX);
+            bossAnim.SetFloat("LastInputY", inputY);
+        }
+    }
+
+    // =========================================================
+    // COROUTINE PARA TREMER A TELA (SHAKE EFFECT)
+    // =========================================================
+    private IEnumerator TremerTela(float duracao, float magnitude)
+    {
+        if (cameraFollow == null) yield break;
+
+        // Guarda o offset original da sua câmera (Ex: X 0, Y 0, Z -10)
+        // NOTA: Se essa palavra "offset" der erro vermelho no seu Unity dizendo que não existe, 
+        // apenas mude o "o" minúsculo para "O" maiúsculo (Offset).
+        Vector3 offsetOriginal = cameraFollow.offset;
+        float tempoPassado = 0f;
+
+        while (tempoPassado < duracao)
+        {
+            // Sorteia valores aleatórios bem curtinhos
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            // Aplica no deslocamento da câmera (para ela tremer sem o CameraFollow estragar)
+            cameraFollow.offset = new Vector3(offsetOriginal.x + x, offsetOriginal.y + y, offsetOriginal.z);
+
+            tempoPassado += Time.deltaTime;
+            yield return null;
+        }
+
+        // Restaura perfeitamente o offset pra câmera não ficar torta pro resto do jogo!
+        cameraFollow.offset = offsetOriginal;
     }
 }

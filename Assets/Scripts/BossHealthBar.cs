@@ -6,14 +6,13 @@ using TMPro;
 public class BossHealthBar : MonoBehaviour
 {
     [Header("UI Elementos")]
-    // Trocamos o GameObject por um CanvasGroup
     public CanvasGroup painelCanvasGroup;
     public Image barraPreenchimento;
     public TextMeshProUGUI textoNomeBoss;
     public TextMeshProUGUI textoNumerosVida;
 
     [Header("Configurações")]
-    public string nomeDoBoss = "Grakmor, o Devorador de Mourvane";
+    public string nomeDoBoss = "Aetherion"; // Pode deixar em branco se for setar por outro script
 
     private EnemyHealth bossHealthScript;
 
@@ -64,8 +63,26 @@ public class BossHealthBar : MonoBehaviour
             textoNumerosVida.text = bossHealthScript.currentHealth + " / " + bossHealthScript.maxHealth;
         }
     }
+
+    // ==========================================
+    // FUNÇÕES DE CUSTOMIZAÇÃO
+    // ==========================================
+
     public void MudarCorDaBarra(Color novaCor)
     {
+        // AQUI ESTAVA O PROBLEMA! Faltava aplicar a cor na imagem.
+        if (barraPreenchimento != null)
+        {
+            barraPreenchimento.color = novaCor;
+        }
     }
 
+    public void MudarNomeDoBoss(string novoNome)
+    {
+        nomeDoBoss = novoNome;
+        if (textoNomeBoss != null)
+        {
+            textoNomeBoss.text = nomeDoBoss;
+        }
+    }
 }

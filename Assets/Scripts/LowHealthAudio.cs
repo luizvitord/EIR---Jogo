@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing; // Importante para controlar o volume visual!
+using UnityEngine.Rendering; // <--- NOVO: Biblioteca correta da URP!
 
 public class LowHealthAudio : MonoBehaviour
 {
     [Header("Referências")]
     public PlayerStats playerStats;
     public AudioClip somCoracao;
-    public PostProcessVolume volumeBaixaVida; // <--- NOVO: Arraste o Volume_BaixaVida aqui
+    public Volume volumeBaixaVida; // <--- NOVO: Tipo correto do componente da URP!
 
     [Header("Configurações")]
     [Range(0f, 1f)]

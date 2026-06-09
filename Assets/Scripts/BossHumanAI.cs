@@ -8,7 +8,7 @@ public class BossHumanAI : MonoBehaviour
     // ==========================================
     [Header("--- FORMA HUMANA ---")]
     public float velocidadeHumana = 3.0f;
-    public float velocidadeRecuperacaoHumana = 3.0f; // Humano não cansa, então fica igual à normal
+    public float velocidadeRecuperacaoHumana = 3.0f;
     public float distanciaAtaqueHumana = 1.5f;
     public float tempoEntreAtaquesHumana = 1.5f;
     public float tempoPausaInvestidaHumana = 1.2f;
@@ -24,7 +24,7 @@ public class BossHumanAI : MonoBehaviour
     // ==========================================
     [Header("--- FORMA MONSTRO ---")]
     public float velocidadeMonstro = 4.5f;
-    public float velocidadeRecuperacaoMonstro = 1.5f; // Monstro anda devagar para recuperar fôlego
+    public float velocidadeRecuperacaoMonstro = 1.5f;
     public float distanciaAtaqueMonstro = 1.8f;
     public float tempoEntreAtaquesMonstro = 2.0f;
     public float tempoPausaInvestidaMonstro = 3.0f;
@@ -37,7 +37,6 @@ public class BossHumanAI : MonoBehaviour
 
     // ==========================================
     // PROPRIEDADES DINÂMICAS (O Cérebro)
-    // Elas leem "isMonstro" e entregam o valor certo automaticamente!
     // ==========================================
     private float VelocidadePadrao => isMonstro ? velocidadeMonstro : velocidadeHumana;
     private float VelocidadeRecuperacao => isMonstro ? velocidadeRecuperacaoMonstro : velocidadeRecuperacaoHumana;
@@ -59,7 +58,7 @@ public class BossHumanAI : MonoBehaviour
     [Header("Áudio / Efeitos Sonoros")]
     public AudioSource sfxSource;
     public bool isMonstro = false;
-    private bool jaTransformou = false; // Trava para atualizar status na hora da cutscene
+    private bool jaTransformou = false;
 
     [Header("Volumes (Ajuste na Unity)")]
     [Range(0f, 1f)] public float volumePassoNormal = 0.1f;
@@ -201,12 +200,30 @@ public class BossHumanAI : MonoBehaviour
 
         if (!isMonstro && sr != null) sr.color = new Color(1f, 0.4f, 0.4f);
         OlharParaOPlayer();
-        TocarSomPreparaDash();
 
+        // ========================================================
+        // LOOP DO SOM DE CARREGAMENTO PARA O MONSTRO
+        // ========================================================
         if (isMonstro)
         {
             anim.SetTrigger("RunAttack");
             anim.SetBool("isWalking", true);
+
+            if (sfxSource != null && somPreparaDashMonstro != null)
+            {
+                sfxSource.clip = somPreparaDashMonstro;
+
+                // ---- A CORREÇÃO ESTÁ AQUI ----
+                // Coloquei 1f direto para estourar no volume máximo da engine, ignorando o volume padrão!
+                sfxSource.volume = 1f;
+
+                sfxSource.loop = true;
+                sfxSource.Play();
+            }
+        }
+        else
+        {
+            TocarSomPreparaDash();
         }
 
         if (BossBattleManager.Instance != null && BossBattleManager.Instance.cameraFollow != null)
@@ -215,6 +232,16 @@ public class BossHumanAI : MonoBehaviour
         }
 
         yield return new WaitForSeconds(TempoPausaInvestida);
+
+        // ========================================================
+        // NOVO: DESLIGA O LOOP PARA O DASH COMEÇAR EM PAZ
+        // ========================================================
+        if (isMonstro && sfxSource != null)
+        {
+            sfxSource.Stop();
+            sfxSource.loop = false;
+        }
+        // ========================================================
 
         if (!isMonstro && sr != null) sr.color = Color.white;
 
@@ -295,7 +322,6 @@ public class BossHumanAI : MonoBehaviour
         float y = anim.GetFloat("LastInputY");
         Vector2 direcao = new Vector2(x, y).normalized;
 
-        // CORRIGIDO PARA A LETRA MAIÚSCULA
         pontoDeAtaque.localPosition = direcao * DistanciaHitbox;
     }
 
@@ -354,7 +380,6 @@ public class BossHumanAI : MonoBehaviour
     {
         if (pontoDeAtaque == null) return;
 
-        // CORRIGIDO PARA A LETRA MAIÚSCULA
         Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, RaioHitbox, layerPlayer);
         if (hit != null)
         {
@@ -371,7 +396,6 @@ public class BossHumanAI : MonoBehaviour
     {
         if (pontoDeAtaque == null) return;
 
-        // CORRIGIDO PARA A LETRA MAIÚSCULA
         Collider2D hit = Physics2D.OverlapCircle(pontoDeAtaque.position, RaioHitbox, layerPlayer);
         if (hit != null)
         {
@@ -388,7 +412,6 @@ public class BossHumanAI : MonoBehaviour
         if (pontoDeAtaque != null)
         {
             Gizmos.color = Color.red;
-            // CORRIGIDO PARA A LETRA MAIÚSCULA
             Gizmos.DrawWireSphere(pontoDeAtaque.position, RaioHitbox);
         }
     }
