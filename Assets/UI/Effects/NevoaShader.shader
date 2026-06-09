@@ -1,79 +1,63 @@
-Shader "Custom/NevoaShader_Tunado"
+Shader "Custom/NevoaShader_URP"
 {
     Properties
     {
         _MainTex ("Noise Texture", 2D) = "white" {}
-        _Color ("Cor da Nevoa", Color) = (1, 1, 1, 1)
+        [HDR] _Color ("Cor da Nevoa", Color) = (1, 1, 1, 1)
         _Density ("Densidade Total", Range(0.0, 2.0)) = 0.25
-        _NoiseScale ("Escala do Ruido", Range(0.1, 5.0)) = 1.0 // ---> NOVO
-        _Contrast ("Contraste da Fumaca", Range(0.1, 10.0)) = 2.0 // ---> NOVO
+        _NoiseScale ("Escala do Ruido", Range(0.1, 5.0)) = 1.0
+        _Contrast ("Contraste da Fumaca", Range(0.1, 10.0)) = 2.0
         _SpeedX ("Velocidade X", Float) = 0.02
         _SpeedY ("Velocidade Y", Float) = 0.01
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
-        LOD 100
+        // Tag importante para o URP identificar como transparente
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" "RenderPipeline" = "UniversalPipeline" }
+        
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
-            CGPROGRAM
+            Name "ForwardLit"
+            Tags { "LightMode" = "UniversalForward" }
+
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct appdata
-            {
-                float4 vertex : POSITION;
+            struct Attributes {
+                float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f
-            {
+            struct Varyings {
+                float4 positionCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
             float4 _Color;
-            float _Density;
-            float _NoiseScale; // ---> NOVO
-            float _Contrast;   // ---> NOVO
-            float _SpeedX;
-            float _SpeedY;
+            float _Density, _NoiseScale, _Contrast, _SpeedX, _SpeedY;
 
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                // Aplica a escala do ruído na UV
-                o.uv = v.uv * _NoiseScale + _MainTex_ST.zw;
-                return o;
+            Varyings vert (Attributes input) {
+                Varyings output;
+                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.uv = input.uv * _NoiseScale;
+                return output;
             }
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // Movimento da névoa
-                float2 animatedUV = i.uv + float2(_SpeedX, _SpeedY) * _Time.y;
-
-                // Lê o ruído
-                fixed4 noiseColor = tex2D(_MainTex, animatedUV);
-                float noise = noiseColor.r;
-
-                // ---> NOVA MATEMÁTICA: Usa o contraste para criar bordas
-                // Usamos a função 'pow' (potência) para aumentar drasticamente o contraste
+            half4 frag (Varyings input) : SV_Target {
+                float2 animatedUV = input.uv + float2(_SpeedX, _SpeedY) * _Time.y;
+                float noise = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, animatedUV).r;
                 float fog = saturate(pow(noise, _Contrast));
-
-                fixed4 finalColor = _Color;
-                // Aplica a densidade e o novo cálculo de névoa no Alpha
-                finalColor.a = _Color.a * fog * _Density;
-
+                half4 finalColor = _Color;
+                finalColor.a *= fog * _Density;
                 return finalColor;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }
