@@ -194,10 +194,13 @@ public class PopUpConquista : MonoBehaviour
             }
             canvasGroupCura.alpha = 0f;
         }
+
         // 4. ATIVA O QUADRINHO PERMANENTE NA HUD
         if (slotCuraUI != null)
         {
             slotCuraUI.SetActive(true);
+            PlayerStats stats = Object.FindFirstObjectByType<PlayerStats>();
+            if (stats != null) stats.temCura = true;
         }
     }
 }

@@ -43,6 +43,9 @@ public class PlayerStats : MonoBehaviour
     public AudioClip somAuraEntrada;
     public AudioClip somAuraSaida;
 
+    [Header("Progresso do Jogo")]
+    public bool temCura = false; // <--- ADICIONE ESTA LINHA AQUI!
+
     public float auraCooldown = 30f; // O tempo total que a habilidade demora para voltar
     private float tempoParaProximaAura = 0f; // O relógio interno que trava o spam
 

@@ -24,6 +24,7 @@ public class SceneTransition : MonoBehaviour
     [Header("Regras de Acesso Customizadas")]
     // ---> NOVAS CONFIGURAÇÕES PARA REUTILIZAÇÃO <---
     public bool precisaDeEspadaDeFerro = false;   // Marque TRUE apenas no portal da Cidade 2
+    public bool precisaDaCura;
     public bool mostrarMensagemDeBloqueio = true; // Marque FALSE se quiser que apenas trave fisicamente
 
     private bool isTransitioning = false;
@@ -55,54 +56,49 @@ public class SceneTransition : MonoBehaviour
         if (collision.CompareTag("Player") && !isTransitioning)
         {
             PlayerMovement player = collision.GetComponent<PlayerMovement>();
+            PlayerStats stats = collision.GetComponent<PlayerStats>(); // Pegamos o stats aqui
 
-            if (player != null)
+            if (player != null && stats != null)
             {
-                // ---> NOVA LÓGICA DE VALIDAÇÃO DINÂMICA <---
-                bool temAcesso = false;
+                // ---> LÓGICA DE VALIDAÇÃO ATUALIZADA <---
+                bool temAcesso = true; // Começamos assumindo que ele pode passar
 
+                // 1. Verificação da Espada
                 if (precisaDeEspadaDeFerro)
                 {
-                    // Para o portal da Cidade 3: Exige EXATAMENTE a Espada de Ferro (Drop do Orc)
-                    temAcesso = (player.currentWeapon == PlayerMovement.WeaponType.IronSword);
+                    if (player.currentWeapon != PlayerMovement.WeaponType.IronSword)
+                        temAcesso = false;
                 }
                 else
                 {
-                    // Para o portal antigo: Só exige não estar desarmado
-                    temAcesso = (player.currentWeapon != PlayerMovement.WeaponType.Unarmed);
+                    if (player.currentWeapon == PlayerMovement.WeaponType.Unarmed)
+                        temAcesso = false;
                 }
 
+                // 2. NOVA Verificação da Cura
+                if (precisaDaCura && !stats.temCura)
+                {
+                    temAcesso = false;
+                }
+
+                // ---> SE O ACESSO FOR PERMITIDO <---
                 if (temAcesso)
                 {
-                    // SALVAMENTO DO PROGRESSO DA RUN
-                    PlayerStats stats = collision.GetComponent<PlayerStats>();
-                    if (stats != null)
-                    {
-                        stats.SalvarProgresso(); // Grava Vida, Nível, Perks, Agilidade e Arma!
-                    }
-
-                    // Grava qual é a próxima fase para o botão "Continuar" do Menu Principal
+                    stats.SalvarProgresso();
                     PlayerPrefs.SetString("FaseSalva", sceneToLoad);
                     PlayerPrefs.Save();
 
-                    // DESLIGA a parede sólida para ele passar liso!
-                    if (solidWall != null)
-                    {
-                        solidWall.enabled = false;
-                    }
-
-                    // Inicia a transição
+                    if (solidWall != null) solidWall.enabled = false;
                     StartCoroutine(FadeAndLoadScene());
                 }
                 else
                 {
-                    // Só mostra o PopUp na tela se a caixinha estiver marcada no Inspector
+                    // Bloqueado
                     if (mostrarMensagemDeBloqueio)
                     {
                         ShowBlockedUI();
                     }
-
-                    Debug.Log("Aviso da Zona: Jogador bloqueado por não cumprir os requisitos de arma do portal.");
+                    Debug.Log("Acesso negado: Requisitos não atendidos.");
                 }
             }
         }
