@@ -13099,9 +13099,10 @@ MonoBehaviour:
     texto: "Sonhos\u2026 planos\u2026 tudo acabou antes de come\xE7ar."
   - nome: Protagonista (pensando)
     texto: "Se existisse\u2026 qualquer chance\u2026 eu agarraria sem pensar."
-  falasCena2Laboratorio:
+  falasCena2LabAproximacao:
   - nome: Protagonista
     texto: "\u2026O que \xE9 isso?"
+  falasCena2LabInteracao:
   - nome: Protagonista
     texto: "Espera\u2014 o que est\xE1 acontecendo?!"
 --- !u!4 &1281796504
@@ -14073,8 +14074,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.9788735, y: 0.9999998, z: 3.6994925}
-  m_Center: {x: -0.19683479, y: 0, z: -1.8497462}
+  m_Size: {x: 10.911782, y: 10.500017, z: 8.594381}
+  m_Center: {x: -0.30191013, y: 0.46129823, z: -4.2971907}
 --- !u!114 &1465795648
 MonoBehaviour:
   m_ObjectHideFlags: 0
