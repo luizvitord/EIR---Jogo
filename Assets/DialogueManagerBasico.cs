@@ -106,9 +106,6 @@ public class DialogueManagerBasico : MonoBehaviour
 
     void ViajarParaMundo2D()
     {
-        GameObject jogador3D = GameObject.FindGameObjectWithTag("Player");
-        if (jogador3D != null) Destroy(jogador3D);
-
         SceneManager.LoadScene("Primeira_Cidade");
     }
 }

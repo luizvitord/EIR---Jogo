@@ -64,6 +64,17 @@ public class PlayerStats : MonoBehaviour
 
         // ---> MÁGICA AQUI: Puxa o save do disco na hora que o Kuro nasce!
         CarregarProgresso();
+
+        // 2. CHECKPOINT AUTOMÁTICO: Salva a cidade atual como ponto de retorno
+        string cenaAtual = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        // Uma trava de segurança para NUNCA salvar a cena 3D ou o Menu como Continue
+        if (cenaAtual != "SampleScene" && cenaAtual != "MainMenu")
+        {
+            PlayerPrefs.SetString("CenaSalva", cenaAtual);
+            PlayerPrefs.Save(); // Força o salvamento no HD na hora
+            Debug.Log("Checkpoint atualizado! O botão Continue agora traz para: " + cenaAtual);
+        }
     }
 
     public void TakeDamage(int damage)
@@ -319,6 +330,7 @@ public class PlayerStats : MonoBehaviour
     // ==========================================
     public void SalvarProgresso()
     {
+        
         PlayerPrefs.SetInt("LevelKuro", level);
         PlayerPrefs.SetInt("ExpAtual", currentExp);
         PlayerPrefs.SetInt("ExpProxLevel", expToNextLevel);

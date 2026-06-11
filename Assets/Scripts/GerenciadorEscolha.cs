@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GerenciadorEscolha : MonoBehaviour
 {
@@ -24,12 +25,32 @@ public class GerenciadorEscolha : MonoBehaviour
         fundoEscuro.SetActive(false);
     }
 
+    private void Update()
+    {
+        // Garante que o Enter (tanto o normal quanto o do teclado numérico) funcione
+        // apenas se o painel de escolha estiver visível na tela
+        if (painelBotao.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                SelecionarItem();
+            }
+        }
+    }
+
     public void AtivarSelecao()
     {
         fundoEscuro.SetActive(true);
         painelBotao.SetActive(true);
         // Opcional: Se quiser congelar o tempo do jogo enquanto escolhe
         Time.timeScale = 0f;
+
+        // O SEGREDO DO FOCO: Dizemos ao EventSystem para selecionar o botão
+        if (botaoCura != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null); // Limpa qualquer seleção fantasma
+            EventSystem.current.SetSelectedGameObject(botaoCura.gameObject); // Foca no botão da cura
+        }
     }
 
     public void SelecionarItem()
